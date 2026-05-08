@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Café Pa’Lante Games | Free Online Games</title>
+  <meta name="description" content="Free online games provided by Café Pa’Lante for the ones who keep going. Simple, fun, and easy to play." />
+
+  <style>
+    :root {
+      --dark: #2b160d;
+      --espresso: #3a2116;
+      --mocha: #704329;
+      --caramel: #b9773f;
+      --gold: #d9a441;
+      --latte: #ecd0ad;
+      --cream: #fff8ef;
+      --white: #ffffff;
+      --text: #2b1a12;
+      --muted: #765f52;
+      --green: #456b3f;
+      --shadow: 0 24px 70px rgba(58, 33, 22, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(217, 164, 65, 0.18), transparent 30%),
+        radial-gradient(circle at 100% 10%, rgba(112, 67, 41, 0.12), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #fff8ef 52%, #ffffff 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    [data-lang="es"] {
+      display: none !important;
+    }
+
+    body.is-es [data-lang="en"] {
+      display: none !important;
+    }
+
+    body.is-es [data-lang="es"] {
+      display: revert !important;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50;
+      width: 100%;
+      border-bottom: 1px solid rgba(112, 67, 41, 0.12);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .top-nav {
+      position: relative;
+      width: min(1120px, calc(100% - 32px));
+      min-height: 74px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, var(--mocha) 0 38%, var(--gold) 39% 44%, var(--dark) 45% 100%);
+      color: var(--cream);
+      box-shadow: 0 14px 30px rgba(58, 33, 22, 0.16);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.66rem;
+      font-weight: 1000;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      text-align: center;
+    }
+
+    .brand-title {
+      min-width: 0;
+      color: var(--dark);
+      font-size: clamp(1rem, 2.6vw, 1.26rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+
+    .brand-title span {
+      color: var(--caramel);
+      font-style: italic;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px;
+      border-radius: 999px;
+      background: var(--dark);
+      box-shadow: 0 16px 34px rgba(58, 33, 22, 0.12);
+    }
+
+    .language-toggle button {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--cream);
+      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      padding: 8px 12px;
+      text-transform: uppercase;
+    }
+
+    .language-toggle button.active {
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    .hamburger {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(112, 67, 41, 0.18);
+      border-radius: 999px;
+      background: var(--cream);
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--dark);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: min(340px, calc(100vw - 28px));
+      display: none;
+      border: 1px solid rgba(112, 67, 41, 0.14);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(217, 164, 65, 0.18), transparent 40%),
+        rgba(255, 248, 239, 0.98);
+      box-shadow: 0 24px 70px rgba(58, 33, 22, 0.18);
+      padding: 10px;
+    }
+
+    .nav-menu.open {
+      display: block;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 14px;
+      border-radius: 16px;
+      color: var(--dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus-visible {
+      background: rgba(112, 67, 41, 0.08);
+      outline: none;
+    }
+
+    .nav-menu a::after {
+      content: "→";
+      color: var(--caramel);
+      font-size: 1rem;
+      flex: 0 0 auto;
+    }
+
+    main {
+      padding: calc(74px + clamp(28px, 5vw, 68px)) 0 clamp(56px, 7vw, 90px);
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: clamp(26px, 5vw, 54px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 9px 14px;
+      border: 1px solid rgba(183, 119, 63, 0.20);
+      border-radius: 999px;
+      background: rgba(236, 208, 173, 0.35);
+      color: #8a3f22;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(217, 164, 65, 0.18);
+    }
+
+    h1 {
+      color: var(--dark);
+      font-size: clamp(3rem, 7.4vw, 7.2rem);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      max-width: 780px;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--caramel);
+      font-style: italic;
+      letter-spacing: -0.06em;
+    }
+
+    .lead {
+      max-width: 660px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 1.8vw, 1.35rem);
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 15px 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-align: center;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--dark), var(--mocha));
+      color: var(--cream);
+      box-shadow: 0 18px 34px rgba(58, 33, 22, 0.22);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(112, 67, 41, 0.16);
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    .visual-card {
+      position: relative;
+      min-height: 460px;
+      border: 1px solid rgba(112, 67, 41, 0.14);
+      border-radius: 42px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.90) 0 7%, transparent 8%),
+        linear-gradient(145deg, #fff5e8 0%, #efd2ad 48%, #b9773f 100%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: clamp(26px, 4vw, 42px);
+    }
+
+    .visual-card::after {
+      content: "FREE GAMES";
+      position: absolute;
+      right: -25px;
+      top: 32px;
+      color: rgba(40, 21, 12, 0.075);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(3rem, 6vw, 4.4rem);
+      font-weight: 1000;
+      letter-spacing: 0.02em;
+      writing-mode: vertical-rl;
+    }
+
+    .game-emblem {
+      position: relative;
+      z-index: 2;
+      width: min(310px, 86%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, var(--cream) 0 28%, var(--gold) 29% 34%, var(--dark) 35% 68%, var(--caramel) 69% 100%);
+      color: var(--cream);
+      text-align: center;
+      box-shadow: 0 32px 70px rgba(43, 22, 13, 0.28);
+    }
+
+    .game-emblem strong {
+      display: block;
+      color: var(--cream);
+      font-size: clamp(2.1rem, 4vw, 3.7rem);
+      line-height: 0.85;
+      letter-spacing: -0.08em;
+    }
+
+    .game-emblem span {
+      display: block;
+      margin-top: 12px;
+      color: var(--latte);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .games-section {
+      margin-top: clamp(60px, 8vw, 96px);
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 28px;
+    }
+
+    .kicker {
+      margin-bottom: 10px;
+      color: #8a3f22;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: var(--dark);
+      font-size: clamp(2.3rem, 5vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .section-copy {
+      max-width: 660px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 1.65;
+    }
+
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .game-card {
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      border: 1px solid rgba(112, 67, 41, 0.12);
+      border-radius: 26px;
+      background: rgba(255, 248, 239, 0.84);
+      box-shadow: 0 16px 42px rgba(58, 33, 22, 0.08);
+      padding: 22px;
+    }
+
+    .game-card small {
+      color: #8a3f22;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .game-card h3 {
+      color: var(--dark);
+      font-size: clamp(1.55rem, 2.5vw, 2rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-top: 10px;
+    }
+
+    .game-card p {
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    .game-card .btn {
+      width: 100%;
+      margin-top: auto;
+      min-height: 52px;
+    }
+
+    .coming-soon {
+      opacity: 0.72;
+    }
+
+    .coming-soon .btn {
+      pointer-events: none;
+      background: rgba(112, 67, 41, 0.12);
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    .sponsor-card {
+      margin-top: clamp(54px, 7vw, 84px);
+      border-radius: 34px;
+      border: 1px solid rgba(112, 67, 41, 0.14);
+      background: linear-gradient(135deg, var(--dark), #452516 52%, #7c4728);
+      color: var(--cream);
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 54px);
+      text-align: center;
+    }
+
+    .sponsor-card h2 {
+      color: var(--cream);
+      margin: 0 auto;
+    }
+
+    .sponsor-card p {
+      max-width: 690px;
+      margin: 18px auto 0;
+      color: rgba(255, 248, 239, 0.84);
+      font-size: 1.06rem;
+      line-height: 1.65;
+    }
+
+    .sponsor-card .btn {
+      margin-top: 26px;
+      background: var(--cream);
+      color: var(--dark);
+    }
+
+    footer {
+      border-top: 1px solid rgba(112, 67, 41, 0.12);
+      background: var(--cream);
+      color: var(--muted);
+      padding: 28px 16px;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card {
+        min-height: 380px;
+      }
+
+      .game-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-nav {
+        width: min(100% - 24px, 1120px);
+        min-height: auto;
+        padding: 12px 0;
+        grid-template-columns: 1fr auto;
+      }
+
+      .brand-title {
+        font-size: 1rem;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        font-size: 0.58rem;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .language-toggle button {
+        padding: 7px 9px;
+        font-size: 0.64rem;
+      }
+
+      .hamburger {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-menu {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
+
+      main {
+        padding-top: calc(74px + 26px);
+      }
+
+      .shell {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .eyebrow {
+        font-size: 0.66rem;
+        letter-spacing: 0.07em;
+        line-height: 1.35;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 16vw, 4.8rem);
+      }
+
+      .lead {
+        font-size: 1.04rem;
+      }
+
+      .hero-actions,
+      .btn {
+        width: 100%;
+      }
+
+      .visual-card {
+        min-height: 330px;
+        border-radius: 30px;
+      }
+
+      .game-emblem {
+        width: min(250px, 86%);
+      }
+
+      .game-card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 430px) {
+      main {
+        padding-top: 142px;
+      }
+
+      .top-nav {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+      }
+
+      .brand {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .language-toggle {
+        flex: 1;
+        max-width: 232px;
+      }
+
+      .language-toggle button {
+        flex: 1;
+      }
+
+      .hamburger {
+        flex: 0 0 42px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Main navigation">
+      <a href="index.html" class="brand" aria-label="Café Pa’Lante Games Home">
+        <div class="brand-mark">Pa’<br>Lante</div>
+        <div class="brand-title">Café <span>Pa’Lante</span> Games</div>
+      </a>
+
+      <div class="nav-actions">
+        <div class="language-toggle" aria-label="Language toggle">
+          <button type="button" class="active" id="enBtn">EN</button>
+          <button type="button" id="esBtn">ES</button>
+        </div>
+
+        <button class="hamburger" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="#games">
+          <span data-lang="en">Free Games</span>
+          <span data-lang="es">Juegos Gratis</span>
+        </a>
+        <a href="https://cafepalante.com" target="_blank" rel="noopener">
+          <span data-lang="en">Shop Café Pa’Lante</span>
+          <span data-lang="es">Comprar Café Pa’Lante</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="shell">
+      <section class="hero" id="home">
+        <div>
+          <div class="eyebrow">
+            <span data-lang="en">Free online games provided by Café Pa’Lante</span>
+            <span data-lang="es">Juegos online gratis presentados por Café Pa’Lante</span>
+          </div>
+
+          <h1 data-lang="en">Play. Smile. <span>Pa’Lante.</span></h1>
+          <h1 data-lang="es">Juega. Sonríe. <span>Pa’Lante.</span></h1>
+
+          <p class="lead" data-lang="en">Simple, fun games made for quick moments of focus, enjoyment, and forward motion — proudly provided by Café Pa’Lante.</p>
+          <p class="lead" data-lang="es">Juegos sencillos y divertidos para momentos rápidos de enfoque, disfrute y movimiento hacia adelante — presentados con orgullo por Café Pa’Lante.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#games">
+              <span data-lang="en">See Free Games</span>
+              <span data-lang="es">Ver Juegos Gratis</span>
+            </a>
+            <a class="btn btn-secondary" href="https://cafepalante.com" target="_blank" rel="noopener">
+              <span data-lang="en">Shop Café Pa’Lante Coffee</span>
+              <span data-lang="es">Comprar Café Pa’Lante</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="visual-card" aria-label="Café Pa’Lante free games emblem">
+          <div class="game-emblem">
+            <div>
+              <strong data-lang="en">Free<br>Games</strong>
+              <strong data-lang="es">Juegos<br>Gratis</strong>
+              <span data-lang="en">By Café Pa’Lante</span>
+              <span data-lang="es">Por Café Pa’Lante</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="games-section" id="games">
+        <div class="section-head">
+          <p class="kicker" data-lang="en">Game Library</p>
+          <p class="kicker" data-lang="es">Biblioteca de Juegos</p>
+
+          <h2 data-lang="en">Choose a game.</h2>
+          <h2 data-lang="es">Escoge un juego.</h2>
+
+          <p class="section-copy" data-lang="en">We will add the games one at a time as the library grows. Start with the first Café Pa’Lante game below.</p>
+          <p class="section-copy" data-lang="es">Vamos a añadir los juegos uno por uno según crezca la biblioteca. Comienza con el primer juego de Café Pa’Lante abajo.</p>
+        </div>
+
+        <div class="game-list">
+          <article class="game-card">
+            <div>
+              <small data-lang="en">Game 001</small>
+              <small data-lang="es">Juego 001</small>
+              <h3 data-lang="en">Pa’Lante Focus</h3>
+              <h3 data-lang="es">Enfoque Pa’Lante</h3>
+              <p data-lang="en">A simple starter game for focus, rhythm, and a quick Pa’Lante moment.</p>
+              <p data-lang="es">Un juego sencillo para comenzar con enfoque, ritmo y un momento Pa’Lante.</p>
+            </div>
+            <a class="btn btn-primary" href="games/game-001.html">
+              <span data-lang="en">Play Game</span>
+              <span data-lang="es">Jugar</span>
+            </a>
+          </article>
+
+          <article class="game-card coming-soon">
+            <div>
+              <small data-lang="en">Game 002</small>
+              <small data-lang="es">Juego 002</small>
+              <h3 data-lang="en">Coming Soon</h3>
+              <h3 data-lang="es">Próximamente</h3>
+              <p data-lang="en">The next free Café Pa’Lante game will be added here.</p>
+              <p data-lang="es">El próximo juego gratis de Café Pa’Lante se añadirá aquí.</p>
+            </div>
+            <a class="btn" href="games/game-002.html">
+              <span data-lang="en">Coming Soon</span>
+              <span data-lang="es">Próximamente</span>
+            </a>
+          </article>
+
+          <article class="game-card coming-soon">
+            <div>
+              <small data-lang="en">Game 003</small>
+              <small data-lang="es">Juego 003</small>
+              <h3 data-lang="en">Coming Soon</h3>
+              <h3 data-lang="es">Próximamente</h3>
+              <p data-lang="en">Add each new game step by step as the repo grows.</p>
+              <p data-lang="es">Añade cada juego paso a paso según crezca el repo.</p>
+            </div>
+            <a class="btn" href="games/game-003.html">
+              <span data-lang="en">Coming Soon</span>
+              <span data-lang="es">Próximamente</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="sponsor-card" id="cafe">
+        <p class="kicker" data-lang="en">Provided by Café Pa’Lante</p>
+        <p class="kicker" data-lang="es">Presentado por Café Pa’Lante</p>
+
+        <h2 data-lang="en">One cup. One game. One step forward.</h2>
+        <h2 data-lang="es">Una taza. Un juego. Un paso hacia adelante.</h2>
+
+        <p data-lang="en">Café Pa’Lante creates flavored coffees for the ones who keep going. These games are our free gift to the community.</p>
+        <p data-lang="es">Café Pa’Lante crea cafés con sabor para los que siguen pa’lante. Estos juegos son nuestro regalo gratis para la comunidad.</p>
+
+        <a class="btn" href="https://cafepalante.com" target="_blank" rel="noopener">
+          <span data-lang="en">Shop Café Pa’Lante Coffee</span>
+          <span data-lang="es">Comprar Café Pa’Lante</span>
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span data-lang="en">© 2026 Café Pa’Lante Games. Free games provided by Café Pa’Lante.</span>
+    <span data-lang="es">© 2026 Café Pa’Lante Games. Juegos gratis presentados por Café Pa’Lante.</span>
+  </footer>
+
+  <script>
+    const enBtn = document.getElementById('enBtn');
+    const esBtn = document.getElementById('esBtn');
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    const menuLinks = navMenu.querySelectorAll('a');
+
+    function setLanguage(lang) {
+      const isSpanish = lang === 'es';
+      document.body.classList.toggle('is-es', isSpanish);
+      enBtn.classList.toggle('active', !isSpanish);
+      esBtn.classList.toggle('active', isSpanish);
+      document.documentElement.lang = isSpanish ? 'es' : 'en';
+      localStorage.setItem('cafePalanteGamesLang', lang);
+      closeMenu();
+    }
+
+    function toggleMenu() {
+      const isOpen = navMenu.classList.toggle('open');
+      menuBtn.classList.toggle('open', isOpen);
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    }
+
+    function closeMenu() {
+      navMenu.classList.remove('open');
+      menuBtn.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.setAttribute('aria-label', 'Open menu');
+    }
+
+    enBtn.addEventListener('click', function () { setLanguage('en'); });
+    esBtn.addEventListener('click', function () { setLanguage('es'); });
+    menuBtn.addEventListener('click', toggleMenu);
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('.top-nav')) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    if (localStorage.getItem('cafePalanteGamesLang') === 'es') {
+      setLanguage('es');
+    }
+  </script>
+</body>
+</html>
