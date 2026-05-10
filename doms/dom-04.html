@@ -40,11 +40,28 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 
 .demo-court{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:6px;background:#1a1a24;border-radius:12px;border:none;width:200px;height:200px;position:relative}
 .demo-court::before{content:'';position:absolute;inset:0;background:rgba(10,10,15,0.5);border-radius:9px;pointer-events:none}
-.demo-cell{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:transparent;transition:all 0.15s}
+.demo-cell{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:all 0.15s}
 .demo-cell.lit{background:var(--flash-color);border-color:var(--flash-color);box-shadow:0 0 15px var(--flash-color);transform:scale(1.05)}
-.demo-cell.correct{background:var(--teal);border-color:var(--teal);box-shadow:0 0 12px rgba(0,217,165,0.5);color:#fff}
+.demo-cell.correct{background:var(--teal);border-color:var(--teal);box-shadow:0 0 12px rgba(0,217,165,0.5)}
 .demo-court.joy-pulse{animation:joyPulse 0.5s ease-out}
 @keyframes joyPulse{0%{box-shadow:0 0 0 0 rgba(0,217,165,0.7)}50%{box-shadow:0 0 25px 8px rgba(0,217,165,0.4)}100%{box-shadow:none}}
+
+/* ── Domino pip styles ── */
+.domino-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity 0.12s}
+/* Demo: show on lit and correct */
+.demo-cell.lit .domino-wrap,
+.demo-cell.correct .domino-wrap{opacity:1}
+/* Play: show on lit, show-num (confirmed correct), and correct */
+.play-cell.lit .domino-wrap,
+.play-cell.show-num .domino-wrap,
+.play-cell.correct .domino-wrap{opacity:1}
+.domino-svg{width:82%;height:82%;overflow:visible}
+.pip{fill:rgba(255,255,255,0.92);transition:fill 0.12s}
+/* On lit cells, darken pip slightly for contrast against flash color */
+.demo-cell.lit .pip,.play-cell.lit .pip{fill:rgba(0,0,0,0.75)}
+.demo-cell.correct .pip,.play-cell.correct .pip,.play-cell.show-num .pip{fill:rgba(255,255,255,0.95)}
+.domino-line{stroke:rgba(255,255,255,0.5);stroke-width:1;stroke-linecap:round}
+.demo-cell.lit .domino-line,.play-cell.lit .domino-line{stroke:rgba(0,0,0,0.5)}
 
 .playbook-section{width:100%;max-width:380px;margin:12px 0}
 .playbook-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;background:linear-gradient(135deg,rgba(0,217,165,0.08),rgba(255,215,0,0.05));border:1px solid rgba(0,217,165,0.2);border-radius:10px;cursor:pointer;transition:all 0.3s}
@@ -129,10 +146,9 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .play-court{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:10px;background:var(--card);border:2px solid var(--border);border-radius:16px;aspect-ratio:1;position:relative;transition:border-color 0.15s,box-shadow 0.15s}
 .play-cell{aspect-ratio:1;border-radius:6px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;z-index:1;transition:all 0.12s}
 .play-cell:active:not(.disabled){transform:scale(0.95)}
-.play-cell .cell-num{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);opacity:0;text-shadow:0 2px 4px rgba(0,0,0,0.5);transition:opacity 0.15s}
 .play-cell.lit{background:var(--flash-color)!important;border-color:var(--flash-color)!important;box-shadow:0 0 22px var(--flash-color);transform:scale(1.06)}
-.play-cell.lit .cell-num,.play-cell.show-num .cell-num{opacity:1}
 .play-cell.correct{background:var(--teal)!important;border-color:var(--teal)!important;box-shadow:0 0 12px rgba(0,217,165,0.5);transform:scale(1.02);animation:correctPulse 0.4s}
+.play-cell.show-num{/* domino visible, no extra style needed */}
 .play-cell.wrong{background:rgba(255,20,147,0.3)!important;border-color:var(--pink)!important;animation:shake 0.4s}
 .play-cell.player-tap{background:rgba(255,255,255,0.2)!important;border-color:rgba(255,255,255,0.4)!important}
 @keyframes correctPulse{50%{transform:scale(1.15)}}
@@ -200,7 +216,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="playbook-inner">
 <div class="playbook-card">
 <div class="playbook-card-title">🎯 <span id="objectiveTitle">OBJECTIVE</span></div>
-<div class="playbook-step"><div class="playbook-step-num">1</div><div class="playbook-step-text" id="step1"><strong>Watch</strong> cells light up one by one</div></div>
+<div class="playbook-step"><div class="playbook-step-num">1</div><div class="playbook-step-text" id="step1"><strong>Watch</strong> domino cells light up one by one</div></div>
 <div class="playbook-step"><div class="playbook-step-num">2</div><div class="playbook-step-text" id="step2"><strong>Remember</strong> the sequence order</div></div>
 <div class="playbook-step"><div class="playbook-step-num">3</div><div class="playbook-step-text" id="step3"><strong>Replay</strong> by tapping in the same order</div></div>
 </div>
@@ -243,45 +259,24 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="bpm-section">
 <div class="bpm-section-title" id="selectSpeedTitle">SELECT BPM SPEED</div>
 <div class="bpm-tier active" id="tierSlow" data-speed="slow">
-<div class="bpm-tier-header">
-<div class="bpm-tier-left"><span class="bpm-tier-icon">🏋️</span><div class="bpm-tier-info"><div class="bpm-tier-name">TRAINING</div><div class="bpm-tier-bpm">60 BPM</div></div></div>
-<span class="bpm-tier-status unlocked" id="tierSlowStatus">✓ FREE</span>
-</div>
+<div class="bpm-tier-header"><div class="bpm-tier-left"><span class="bpm-tier-icon">🏋️</span><div class="bpm-tier-info"><div class="bpm-tier-name">TRAINING</div><div class="bpm-tier-bpm">60 BPM</div></div></div><span class="bpm-tier-status unlocked" id="tierSlowStatus">✓ FREE</span></div>
 <div class="bpm-tier-progress"><span class="bpm-gostars" id="starsSlow">⭐☆☆☆☆☆☆☆☆☆</span><span class="bpm-level" id="levelSlowDisplay">L1</span></div>
 </div>
 <div class="bpm-tier" id="tierMed" data-speed="med">
-<div class="bpm-tier-header">
-<div class="bpm-tier-left"><span class="bpm-tier-icon">🎯</span><div class="bpm-tier-info"><div class="bpm-tier-name">TEMPO</div><div class="bpm-tier-bpm">90 BPM</div></div></div>
-<span class="bpm-tier-status unlocked" id="tierMedStatus">✓ FREE</span>
-</div>
+<div class="bpm-tier-header"><div class="bpm-tier-left"><span class="bpm-tier-icon">🎯</span><div class="bpm-tier-info"><div class="bpm-tier-name">TEMPO</div><div class="bpm-tier-bpm">90 BPM</div></div></div><span class="bpm-tier-status unlocked" id="tierMedStatus">✓ FREE</span></div>
 <div class="bpm-tier-progress"><span class="bpm-gostars" id="starsMed">☆☆☆☆☆☆☆☆☆☆</span><span class="bpm-level" id="levelMedDisplay">L1</span></div>
 </div>
 <div class="bpm-tier" id="tierFast" data-speed="fast">
-<div class="bpm-tier-header">
-<div class="bpm-tier-left"><span class="bpm-tier-icon">⚡</span><div class="bpm-tier-info"><div class="bpm-tier-name">ELITE</div><div class="bpm-tier-bpm">120 BPM</div></div></div>
-<span class="bpm-tier-status unlocked" id="tierFastStatus">✓ FREE</span>
-</div>
+<div class="bpm-tier-header"><div class="bpm-tier-left"><span class="bpm-tier-icon">⚡</span><div class="bpm-tier-info"><div class="bpm-tier-name">ELITE</div><div class="bpm-tier-bpm">120 BPM</div></div></div><span class="bpm-tier-status unlocked" id="tierFastStatus">✓ FREE</span></div>
 <div class="bpm-tier-progress"><span class="bpm-gostars" id="starsFast">☆☆☆☆☆☆☆☆☆☆</span><span class="bpm-level" id="levelFastDisplay">L1</span></div>
 </div>
 </div>
 <div class="level-section">
 <div class="level-section-title" id="selectLevelTitle">SELECT LEVEL</div>
 <div class="level-grid" id="levelGrid">
-<button class="level-btn active" data-level="1">1</button>
-<button class="level-btn" data-level="2">2</button>
-<button class="level-btn" data-level="3">3</button>
-<button class="level-btn" data-level="4">4</button>
-<button class="level-btn" data-level="5">5</button>
-<button class="level-btn" data-level="6">6</button>
-<button class="level-btn" data-level="7">7</button>
-<button class="level-btn" data-level="8">8</button>
-<button class="level-btn" data-level="9">9</button>
-<button class="level-btn" data-level="10">10</button>
+<button class="level-btn active" data-level="1">1</button><button class="level-btn" data-level="2">2</button><button class="level-btn" data-level="3">3</button><button class="level-btn" data-level="4">4</button><button class="level-btn" data-level="5">5</button><button class="level-btn" data-level="6">6</button><button class="level-btn" data-level="7">7</button><button class="level-btn" data-level="8">8</button><button class="level-btn" data-level="9">9</button><button class="level-btn" data-level="10">10</button>
 </div>
-<div class="level-info">
-<span class="level-info-label" id="seqLabel">Sequence length:</span>
-<span class="level-info-value" id="seqDisplay">5</span>
-</div>
+<div class="level-info"><span class="level-info-label" id="seqLabel">Sequence length:</span><span class="level-info-value" id="seqDisplay">5</span></div>
 </div>
 <button class="letsgo-btn" id="letsGoBtn">LET'S GO!</button>
 </div>
@@ -325,166 +320,110 @@ var $=function(id){return document.getElementById(id)},$$=function(sel){return d
 var screenDemo=$('screen-demo'),screenTrophy=$('screen-trophy'),screenPlay=$('screen-play'),currentScreen='demo';
 var currentLang='en';
 
-var translations = {
-  en: {
-    demoBadge: 'Basketball Money',
-    demoSubtitle: 'Sequential Brake Execution',
-    demoLabelWatch: '👀 WATCH...',
-    demoLabelSeq: 'WATCH THE SEQUENCE...',
-    demoLabelReplay: 'REPLAY IT!',
-    demoLabelPerfect: '✅ PERFECT!',
-    playbookToggle: 'THE PLAYBOOK',
-    objectiveTitle: 'OBJECTIVE',
-    step1: '<strong>Watch</strong> cells light up one by one',
-    step2: '<strong>Remember</strong> the sequence order',
-    step3: '<strong>Replay</strong> by tapping in the same order',
-    progressionTitle: 'PROGRESSION',
-    prog1: 'Complete <strong>3 rounds</strong> to earn a GoStar',
-    prog2: 'Earn <strong>10 GoStars</strong> to master a level',
-    prog3: 'Higher levels = <strong>longer sequences</strong>',
-    speedsTitle: 'BPM SPEEDS',
-    speed1: '<strong>Training (60 BPM)</strong> — Slower flashes',
-    speed2: '<strong>Tempo (90 BPM)</strong> — Medium speed',
-    speed3: '<strong>Elite (120 BPM)</strong> — Fast flashes!',
-    tipTitle: 'TIP',
-    tipText: 'Focus on the rhythm of the flashes — your muscle memory will kick in!',
-    playNow: '▶ PLAY NOW',
-    poweredBy: 'Powered by',
-    trophyTitle: 'YOUR TROPHY ROOM',
-    trophySubtitle: 'Multi-Target Vision Progress',
-    selectSpeed: 'SELECT BPM SPEED',
-    tierFree: '✓ FREE',
-    selectLevel: 'SELECT LEVEL',
-    seqLabel: 'Sequence length:',
-    letsGo: "LET'S GO!",
-    roundLabel: 'Round',
-    scoreLabel: 'Score',
-    tapToStart: 'TAP TO START!',
-    tapLetsGo: "TAP LET'S GO!",
-    watch: 'WATCH...',
-    yourTurn: 'YOUR TURN!',
-    wrong: 'WRONG!',
-    tierupTitle: 'GOSTAR EARNED!',
-    tierupMsg: 'You earned GoStar {tier}!',
-    tierupLvl: ' Now Level {level} ({seq} steps)',
-    masterMsg: '🏆 10 GOSTARS - MASTER! 🏆'
-  },
-  es: {
-    demoBadge: 'Basketball Money',
-    demoSubtitle: 'Ejecución Secuencial del Freno',
-    demoLabelWatch: '👀 MIRA...',
-    demoLabelSeq: 'MIRA LA SECUENCIA...',
-    demoLabelReplay: '¡REPÍTELO!',
-    demoLabelPerfect: '✅ ¡PERFECTO!',
-    playbookToggle: 'EL MANUAL',
-    objectiveTitle: 'OBJETIVO',
-    step1: '<strong>Observa</strong> las celdas iluminarse una por una',
-    step2: '<strong>Recuerda</strong> el orden de la secuencia',
-    step3: '<strong>Repite</strong> tocando en el mismo orden',
-    progressionTitle: 'PROGRESIÓN',
-    prog1: 'Completa <strong>3 rondas</strong> para ganar un GoStar',
-    prog2: 'Gana <strong>10 GoStars</strong> para dominar un nivel',
-    prog3: 'Niveles más altos = <strong>secuencias más largas</strong>',
-    speedsTitle: 'VELOCIDADES BPM',
-    speed1: '<strong>Entrenamiento (60 BPM)</strong> — Destellos lentos',
-    speed2: '<strong>Tempo (90 BPM)</strong> — Velocidad media',
-    speed3: '<strong>Elite (120 BPM)</strong> — ¡Destellos rápidos!',
-    tipTitle: 'CONSEJO',
-    tipText: 'Concéntrate en el ritmo de los destellos — ¡tu memoria muscular te ayudará!',
-    playNow: '▶ JUGAR AHORA',
-    poweredBy: 'Impulsado por',
-    trophyTitle: 'TU VITRINA',
-    trophySubtitle: 'Progreso de Multi-Target Vision',
-    selectSpeed: 'SELECCIONA VELOCIDAD BPM',
-    tierFree: '✓ GRATIS',
-    selectLevel: 'SELECCIONA NIVEL',
-    seqLabel: 'Longitud:',
-    letsGo: "¡PA'LANTE!",
-    roundLabel: 'Ronda',
-    scoreLabel: 'Puntos',
-    tapToStart: '¡TOCA PARA COMENZAR!',
-    tapLetsGo: "¡TOCA PA'LANTE!",
-    watch: 'MIRA...',
-    yourTurn: '¡TU TURNO!',
-    wrong: '¡ERROR!',
-    tierupTitle: '¡GOSTAR GANADO!',
-    tierupMsg: '¡Ganaste GoStar {tier}!',
-    tierupLvl: ' Ahora Nivel {level} ({seq} pasos)',
-    masterMsg: '🏆 10 GOSTARS - ¡MAESTRO! 🏆'
-  }
+/* =====================================================
+   DOMINO PIP SVG ENGINE
+   1-6  = single face | 7-12 = split face
+   During sequence flash: pip color is dark (contrast on gold/color bg)
+   During correct/show-num: pip color is white
+   ===================================================== */
+var PIP_LAYOUTS={
+  0:[],
+  1:[[15,15]],
+  2:[[8,8],[22,22]],
+  3:[[8,8],[15,15],[22,22]],
+  4:[[8,8],[22,8],[8,22],[22,22]],
+  5:[[8,8],[22,8],[15,15],[8,22],[22,22]],
+  6:[[8,7],[22,7],[8,15],[22,15],[8,23],[22,23]]
 };
+var SPLIT_MAP={7:[5,2],8:[6,2],9:[6,3],10:[6,4],11:[6,5],12:[6,6]};
 
-function t(key) {
-  return translations[currentLang][key] || translations['en'][key] || key;
+function makePips(layout,r,ox,oy){
+  return layout.map(function(p){return'<circle class="pip" cx="'+(p[0]+ox)+'" cy="'+(p[1]+oy)+'" r="'+r+'"/>'}).join('');
+}
+function makePipsScaled(layout,r,aX,aY,aW,aH){
+  return layout.map(function(p){
+    var cx=aX+(p[0]/30)*aW,cy=aY+(p[1]/30)*aH;
+    return'<circle class="pip" cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+r+'"/>';
+  }).join('');
+}
+function getDominoSVG(num){
+  if(num<=6){
+    var r=3.2,layout=PIP_LAYOUTS[num]||[],pips=makePips(layout,r,3,3);
+    return'<svg class="domino-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">'
+      +'<rect x="1" y="1" width="34" height="34" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>'
+      +pips+'</svg>';
+  }
+  var splits=SPLIT_MAP[num]||[6,num-6];
+  var lP=makePipsScaled(PIP_LAYOUTS[splits[0]]||[],2.5,2,3,14,30);
+  var rP=makePipsScaled(PIP_LAYOUTS[splits[1]]||[],2.5,20,3,14,30);
+  return'<svg class="domino-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">'
+    +'<rect x="1" y="1" width="34" height="34" rx="4" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>'
+    +'<line class="domino-line" x1="18" y1="3" x2="18" y2="33"/>'
+    +lP+rP+'</svg>';
 }
 
-function updateUILanguage() {
-  $('demoBadge').textContent = t('demoBadge');
-  $('demoSubtitle').textContent = t('demoSubtitle');
-  $('playbookToggleText').textContent = t('playbookToggle');
-  $('objectiveTitle').textContent = t('objectiveTitle');
-  $('step1').innerHTML = t('step1');
-  $('step2').innerHTML = t('step2');
-  $('step3').innerHTML = t('step3');
-  $('progressionTitle').textContent = t('progressionTitle');
-  $('prog1').innerHTML = t('prog1');
-  $('prog2').innerHTML = t('prog2');
-  $('prog3').innerHTML = t('prog3');
-  $('speedsTitle').textContent = t('speedsTitle');
-  $('speed1').innerHTML = t('speed1');
-  $('speed2').innerHTML = t('speed2');
-  $('speed3').innerHTML = t('speed3');
-  $('tipTitle').textContent = t('tipTitle');
-  $('tipText').textContent = t('tipText');
-  $('playNowBtn').textContent = t('playNow');
-  $('poweredBy').textContent = t('poweredBy');
-  
-  $('trophyTitle').textContent = t('trophyTitle');
-  $('trophySubtitle').textContent = t('trophySubtitle');
-  $('selectSpeedTitle').textContent = t('selectSpeed');
-  $('tierSlowStatus').textContent = t('tierFree');
-  $('tierMedStatus').textContent = t('tierFree');
-  $('tierFastStatus').textContent = t('tierFree');
-  $('selectLevelTitle').textContent = t('selectLevel');
-  $('seqLabel').textContent = t('seqLabel');
-  $('letsGoBtn').textContent = t('letsGo');
-  
-  $('playRoundLabel').textContent = t('roundLabel');
-  $('playScoreLabel').textContent = t('scoreLabel');
-  $('playActionBtn').textContent = t('letsGo');
-  $('tierupTitle').textContent = t('tierupTitle');
-  $('tierupBtn').textContent = t('letsGo');
-  
-  $('langEN').classList.toggle('active', currentLang === 'en');
-  $('langES').classList.toggle('active', currentLang === 'es');
+function attachDomino(cellEl,num){
+  var w=cellEl.querySelector('.domino-wrap');
+  if(w) w.innerHTML=getDominoSVG(num);
+}
+function clearDomino(cellEl){
+  var w=cellEl.querySelector('.domino-wrap');
+  if(w) w.innerHTML='';
 }
 
-function setLang(l) {
-  currentLang = l;
-  localStorage.setItem('lc-lang', l);
-  updateUILanguage();
+/* =====================================================
+   TRANSLATIONS
+   ===================================================== */
+var translations={
+  en:{demoBadge:'Basketball Money',demoSubtitle:'Sequential Brake Execution',demoLabelWatch:'👀 WATCH...',demoLabelSeq:'WATCH THE SEQUENCE...',demoLabelReplay:'REPLAY IT!',demoLabelPerfect:'✅ PERFECT!',playbookToggle:'THE PLAYBOOK',objectiveTitle:'OBJECTIVE',step1:'<strong>Watch</strong> domino cells light up one by one',step2:'<strong>Remember</strong> the sequence order',step3:'<strong>Replay</strong> by tapping in the same order',progressionTitle:'PROGRESSION',prog1:'Complete <strong>3 rounds</strong> to earn a GoStar',prog2:'Earn <strong>10 GoStars</strong> to master a level',prog3:'Higher levels = <strong>longer sequences</strong>',speedsTitle:'BPM SPEEDS',speed1:'<strong>Training (60 BPM)</strong> — Slower flashes',speed2:'<strong>Tempo (90 BPM)</strong> — Medium speed',speed3:'<strong>Elite (120 BPM)</strong> — Fast flashes!',tipTitle:'TIP',tipText:'Focus on the rhythm of the flashes — your muscle memory will kick in!',playNow:'▶ PLAY NOW',poweredBy:'Powered by',trophyTitle:'YOUR TROPHY ROOM',trophySubtitle:'Multi-Target Vision Progress',selectSpeed:'SELECT BPM SPEED',tierFree:'✓ FREE',selectLevel:'SELECT LEVEL',seqLabel:'Sequence length:',letsGo:"LET'S GO!",roundLabel:'Round',scoreLabel:'Score',tapToStart:'TAP TO START!',tapLetsGo:"TAP LET'S GO!",watch:'WATCH...',yourTurn:'YOUR TURN!',wrong:'WRONG!',tierupTitle:'GOSTAR EARNED!',tierupMsg:'You earned GoStar {tier}!',tierupLvl:' Now Level {level} ({seq} steps)',masterMsg:'🏆 10 GOSTARS - MASTER! 🏆'},
+  es:{demoBadge:'Basketball Money',demoSubtitle:'Ejecución Secuencial del Freno',demoLabelWatch:'👀 MIRA...',demoLabelSeq:'MIRA LA SECUENCIA...',demoLabelReplay:'¡REPÍTELO!',demoLabelPerfect:'✅ ¡PERFECTO!',playbookToggle:'EL MANUAL',objectiveTitle:'OBJETIVO',step1:'<strong>Observa</strong> las celdas de dominó iluminarse una por una',step2:'<strong>Recuerda</strong> el orden de la secuencia',step3:'<strong>Repite</strong> tocando en el mismo orden',progressionTitle:'PROGRESIÓN',prog1:'Completa <strong>3 rondas</strong> para ganar un GoStar',prog2:'Gana <strong>10 GoStars</strong> para dominar un nivel',prog3:'Niveles más altos = <strong>secuencias más largas</strong>',speedsTitle:'VELOCIDADES BPM',speed1:'<strong>Entrenamiento (60 BPM)</strong> — Destellos lentos',speed2:'<strong>Tempo (90 BPM)</strong> — Velocidad media',speed3:'<strong>Elite (120 BPM)</strong> — ¡Destellos rápidos!',tipTitle:'CONSEJO',tipText:'Concéntrate en el ritmo de los destellos — ¡tu memoria muscular te ayudará!',playNow:'▶ JUGAR AHORA',poweredBy:'Impulsado por',trophyTitle:'TU VITRINA',trophySubtitle:'Progreso de Multi-Target Vision',selectSpeed:'SELECCIONA VELOCIDAD BPM',tierFree:'✓ GRATIS',selectLevel:'SELECCIONA NIVEL',seqLabel:'Longitud:',letsGo:"¡PA'LANTE!",roundLabel:'Ronda',scoreLabel:'Puntos',tapToStart:'¡TOCA PARA COMENZAR!',tapLetsGo:"¡TOCA PA'LANTE!",watch:'MIRA...',yourTurn:'¡TU TURNO!',wrong:'¡ERROR!',tierupTitle:'¡GOSTAR GANADO!',tierupMsg:'¡Ganaste GoStar {tier}!',tierupLvl:' Ahora Nivel {level} ({seq} pasos)',masterMsg:'🏆 10 GOSTARS - ¡MAESTRO! 🏆'}
+};
+function t(key){return translations[currentLang][key]||translations['en'][key]||key}
+
+function updateUILanguage(){
+  $('demoBadge').textContent=t('demoBadge');$('demoSubtitle').textContent=t('demoSubtitle');
+  $('playbookToggleText').textContent=t('playbookToggle');$('objectiveTitle').textContent=t('objectiveTitle');
+  $('step1').innerHTML=t('step1');$('step2').innerHTML=t('step2');$('step3').innerHTML=t('step3');
+  $('progressionTitle').textContent=t('progressionTitle');$('prog1').innerHTML=t('prog1');$('prog2').innerHTML=t('prog2');$('prog3').innerHTML=t('prog3');
+  $('speedsTitle').textContent=t('speedsTitle');$('speed1').innerHTML=t('speed1');$('speed2').innerHTML=t('speed2');$('speed3').innerHTML=t('speed3');
+  $('tipTitle').textContent=t('tipTitle');$('tipText').textContent=t('tipText');
+  $('playNowBtn').textContent=t('playNow');$('poweredBy').textContent=t('poweredBy');
+  $('trophyTitle').textContent=t('trophyTitle');$('trophySubtitle').textContent=t('trophySubtitle');
+  $('selectSpeedTitle').textContent=t('selectSpeed');
+  $('tierSlowStatus').textContent=t('tierFree');$('tierMedStatus').textContent=t('tierFree');$('tierFastStatus').textContent=t('tierFree');
+  $('selectLevelTitle').textContent=t('selectLevel');$('seqLabel').textContent=t('seqLabel');$('letsGoBtn').textContent=t('letsGo');
+  $('playRoundLabel').textContent=t('roundLabel');$('playScoreLabel').textContent=t('scoreLabel');
+  $('playActionBtn').textContent=t('letsGo');$('tierupTitle').textContent=t('tierupTitle');$('tierupBtn').textContent=t('letsGo');
+  $('langEN').classList.toggle('active',currentLang==='en');$('langES').classList.toggle('active',currentLang==='es');
 }
-
-$('langEN').onclick = function() { setLang('en'); };
-$('langES').onclick = function() { setLang('es'); };
-
-var savedLang = localStorage.getItem('lc-lang');
-if (savedLang) currentLang = savedLang;
+function setLang(l){currentLang=l;localStorage.setItem('lc-lang',l);updateUILanguage()}
+$('langEN').onclick=function(){setLang('en')};$('langES').onclick=function(){setLang('es')};
+var savedLang=localStorage.getItem('lc-lang');if(savedLang)currentLang=savedLang;
 
 function showScreen(name){
-  screenDemo.classList.remove('active');
-  screenTrophy.classList.remove('active');
-  screenPlay.classList.remove('active');
+  screenDemo.classList.remove('active');screenTrophy.classList.remove('active');screenPlay.classList.remove('active');
   currentScreen=name;document.querySelector('.nav-lang').style.display=name==='play'?'none':'flex';
   if(name==='demo')screenDemo.classList.add('active');
   else if(name==='trophy')screenTrophy.classList.add('active');
   else if(name==='play')screenPlay.classList.add('active');
 }
 
+/* =====================================================
+   DEMO COURT
+   Cells flash one by one each showing its sequence domino
+   Replay phase shows same dominos as correct (teal)
+   ===================================================== */
 var demoCourt=$('demoCourt'),demoLabel=$('demoLabel'),demoCells=[],demoEpoch=0,demoTimeouts=[];
 var FLASH_COLORS=['#FFD700','#00D9A5','#FF6B35','#FF1493'],colorIndex=0;
 
-function initDemoCourt(){demoCourt.innerHTML='';demoCells=[];for(var i=0;i<25;i++){var c=document.createElement('div');c.className='demo-cell';demoCourt.appendChild(c);demoCells.push(c)}}
+function initDemoCourt(){
+  demoCourt.innerHTML='';demoCells=[];
+  for(var i=0;i<25;i++){
+    var c=document.createElement('div');c.className='demo-cell';
+    var w=document.createElement('div');w.className='domino-wrap';
+    c.appendChild(w);demoCourt.appendChild(c);demoCells.push(c);
+  }
+}
 function setDemoTimeout(fn,delay){var id=setTimeout(function(){var idx=demoTimeouts.indexOf(id);if(idx>-1)demoTimeouts.splice(idx,1);fn()},delay);demoTimeouts.push(id);return id}
 function clearDemoTimeouts(){demoTimeouts.forEach(function(id){clearTimeout(id)});demoTimeouts=[]}
 function randomSequence(count){var arr=[];for(var i=0;i<25;i++)arr.push(i);for(var j=arr.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var tmp=arr[j];arr[j]=arr[k];arr[k]=tmp}return arr.slice(0,count)}
@@ -495,32 +434,43 @@ function runDemoRound(epoch){
   var color=FLASH_COLORS[colorIndex];
   colorIndex=(colorIndex+1)%FLASH_COLORS.length;
   document.documentElement.style.setProperty('--flash-color',color);
-  demoCells.forEach(function(c){c.className='demo-cell';c.textContent=''});
+  demoCells.forEach(function(c){c.className='demo-cell';clearDomino(c)});
+
   setDemoTimeout(function(){
     if(epoch!==demoEpoch)return;
     demoLabel.textContent=t('demoLabelSeq');
     demoLabel.className='demo-label phase-watch';
+    // Flash each cell one by one with its sequence-position domino
     sequence.forEach(function(idx,i){
       setDemoTimeout(function(){
         if(epoch!==demoEpoch)return;
-        demoCells.forEach(function(c){c.classList.remove('lit')});
+        // Clear previous lit cell
+        demoCells.forEach(function(c){
+          if(c.classList.contains('lit')){c.classList.remove('lit');clearDomino(c)}
+        });
         demoCells[idx].classList.add('lit');
+        attachDomino(demoCells[idx],i+1);
       },i*600);
     });
   },500);
+
+  // Hide after sequence completes
   setDemoTimeout(function(){
     if(epoch!==demoEpoch)return;
-    demoCells.forEach(function(c){c.classList.remove('lit')});
+    demoCells.forEach(function(c){c.classList.remove('lit');clearDomino(c)});
     demoLabel.textContent=t('demoLabelReplay');
     demoLabel.className='demo-label phase-replay';
   },500+(5*600)+300);
+
+  // Replay: show each cell as correct with its domino
   sequence.forEach(function(idx,i){
     setDemoTimeout(function(){
       if(epoch!==demoEpoch)return;
       demoCells[idx].classList.add('correct');
-      demoCells[idx].textContent='✓';
+      attachDomino(demoCells[idx],i+1);
     },500+(5*600)+800+(i*400));
   });
+
   setDemoTimeout(function(){
     if(epoch!==demoEpoch)return;
     demoLabel.textContent=t('demoLabelPerfect');
@@ -528,9 +478,10 @@ function runDemoRound(epoch){
     demoCourt.classList.add('joy-pulse');
     setTimeout(function(){demoCourt.classList.remove('joy-pulse')},500);
   },500+(5*600)+800+(5*400)+200);
+
   setDemoTimeout(function(){
     if(epoch!==demoEpoch)return;
-    demoCells.forEach(function(c){c.className='demo-cell';c.textContent=''});
+    demoCells.forEach(function(c){c.className='demo-cell';clearDomino(c)});
     demoLabel.textContent=t('demoLabelWatch');
     demoLabel.className='demo-label';
     runDemoRound(epoch);
@@ -542,9 +493,11 @@ function stopDemo(){demoEpoch++;clearDemoTimeouts()}
 
 var playbookToggle=$('playbookToggle'),playbookContent=$('playbookContent');
 playbookToggle.onclick=function(){playbookToggle.classList.toggle('open');playbookContent.classList.toggle('open')};
-
 $('playNowBtn').onclick=function(){stopDemo();showScreen('trophy')};
 
+/* =====================================================
+   GAME STATE
+   ===================================================== */
 var gameState={speed:'slow',level:1,tier:1,roundsCompleted:0,score:0,streak:0};
 var LEVEL_BASE={1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:13,10:14};
 
@@ -555,13 +508,9 @@ function getSeqLen(){var base=LEVEL_BASE[gameState.level]||5,tierBonus=gameState
 function renderStars(tier){var s='';for(var i=0;i<10;i++)s+=i<tier?'⭐':'☆';return s}
 
 function updateTrophyUI(){
-  var slowData=loadSpeedState('slow'),medData=loadSpeedState('med'),fastData=loadSpeedState('fast');
-  $('starsSlow').textContent=renderStars(slowData.tier);
-  $('starsMed').textContent=renderStars(medData.tier);
-  $('starsFast').textContent=renderStars(fastData.tier);
-  $('levelSlowDisplay').textContent='L'+slowData.level;
-  $('levelMedDisplay').textContent='L'+medData.level;
-  $('levelFastDisplay').textContent='L'+fastData.level;
+  var s=loadSpeedState('slow'),m=loadSpeedState('med'),f=loadSpeedState('fast');
+  $('starsSlow').textContent=renderStars(s.tier);$('starsMed').textContent=renderStars(m.tier);$('starsFast').textContent=renderStars(f.tier);
+  $('levelSlowDisplay').textContent='L'+s.level;$('levelMedDisplay').textContent='L'+m.level;$('levelFastDisplay').textContent='L'+f.level;
   $$('.bpm-tier').forEach(function(t){t.classList.remove('active')});
   if(gameState.speed==='slow')$('tierSlow').classList.add('active');
   else if(gameState.speed==='med')$('tierMed').classList.add('active');
@@ -572,33 +521,29 @@ function updateTrophyUI(){
 
 $$('.bpm-tier').forEach(function(tier){
   tier.onclick=function(){
-    var spd=tier.dataset.speed;
-    gameState.speed=spd;
+    var spd=tier.dataset.speed;gameState.speed=spd;
     var data=loadSpeedState(spd);
-    gameState.level=data.level;
-    gameState.tier=data.tier;
-    gameState.roundsCompleted=data.roundsCompleted;
-    gameState.score=data.score;
-    gameState.streak=data.streak;
+    gameState.level=data.level;gameState.tier=data.tier;gameState.roundsCompleted=data.roundsCompleted;gameState.score=data.score;gameState.streak=data.streak;
     updateTrophyUI();
   };
 });
-
 $$('.level-btn').forEach(function(btn){
   btn.onclick=function(){
-    gameState.level=parseInt(btn.dataset.level);
-    gameState.tier=1;
-    gameState.roundsCompleted=0;
-    saveSpeedState();
-    updateTrophyUI();
+    gameState.level=parseInt(btn.dataset.level);gameState.tier=1;gameState.roundsCompleted=0;
+    saveSpeedState();updateTrophyUI();
   };
 });
-
 $('letsGoBtn').onclick=function(){showScreen('play');initGame()};
 
+/* =====================================================
+   PLAY COURT
+   sequenceDominos[i] = domino number for step i (1-based)
+   Shown during flash AND matched on correct tap
+   ===================================================== */
 var playCourt=$('playCourt'),playCells=[],playTimeouts=[];
 var SPEED_CFG={slow:{show:800,gap:300},med:{show:500,gap:200},fast:{show:300,gap:150}};
-var ROUNDS_PER_TIER=3,TOTAL_TIERS=10,sequence=[],playerIndex=0,isPlaying=false,canTap=false;
+var ROUNDS_PER_TIER=3,TOTAL_TIERS=10;
+var sequence=[],sequenceDominos=[],playerIndex=0,isPlaying=false,canTap=false;
 var LAUGH_EMOJIS=['😂','😆','🤣','😄','😁','🥳','😊','🏀'],PARTY_EMOJIS=['🥳','🎉','😂','🤣','✨','💫','🏀','🏆'],audioCtx=null,playColorIndex=0;
 
 function setPlayTimeout(fn,delay){var id=setTimeout(function(){var idx=playTimeouts.indexOf(id);if(idx>-1)playTimeouts.splice(idx,1);fn()},delay);playTimeouts.push(id);return id}
@@ -607,13 +552,11 @@ function clearPlayTimeouts(){playTimeouts.forEach(function(id){clearTimeout(id)}
 function initPlayCourt(){
   playCourt.innerHTML='';playCells=[];
   for(var i=0;i<25;i++){
-    var c=document.createElement('div');
-    c.className='play-cell';
-    c.dataset.index=i;
-    c.innerHTML='<span class="cell-num"></span>';
+    var c=document.createElement('div');c.className='play-cell';c.dataset.index=i;
+    var w=document.createElement('div');w.className='domino-wrap';
+    c.appendChild(w);
     c.onclick=function(){handleTap(parseInt(this.dataset.index))};
-    playCourt.appendChild(c);
-    playCells.push(c);
+    playCourt.appendChild(c);playCells.push(c);
   }
 }
 
@@ -627,11 +570,8 @@ function renderPlayTierDots(){
 }
 
 function updatePlayUI(){
-  $('playTier').textContent=gameState.tier;
-  $('playRound').textContent=gameState.roundsCompleted+'/'+ROUNDS_PER_TIER;
-  $('playStreak').textContent=gameState.streak;
-  $('playScore').textContent=gameState.score;
-  $('playTotal').textContent=gameState.score;
+  $('playTier').textContent=gameState.tier;$('playRound').textContent=gameState.roundsCompleted+'/'+ROUNDS_PER_TIER;
+  $('playStreak').textContent=gameState.streak;$('playScore').textContent=gameState.score;$('playTotal').textContent=gameState.score;
   var spName=gameState.speed==='slow'?'TRAINING':gameState.speed==='med'?'TEMPO':'ELITE';
   $('playBadge').textContent='L'+gameState.level+' '+spName;
   $('playSeq').textContent='SEQ: '+getSeqLen();
@@ -641,16 +581,9 @@ function updatePlayUI(){
 function initGame(){
   initPlayCourt();
   var data=loadSpeedState(gameState.speed);
-  gameState.level=data.level;
-  gameState.tier=data.tier;
-  gameState.roundsCompleted=data.roundsCompleted;
-  gameState.score=data.score;
-  gameState.streak=data.streak;
-  isPlaying=false;
-  canTap=false;
-  updatePlayUI();
-  $('playMessage').textContent=t('tapLetsGo');
-  $('playActionBtn').disabled=false;
+  gameState.level=data.level;gameState.tier=data.tier;gameState.roundsCompleted=data.roundsCompleted;gameState.score=data.score;gameState.streak=data.streak;
+  isPlaying=false;canTap=false;updatePlayUI();
+  $('playMessage').textContent=t('tapLetsGo');$('playActionBtn').disabled=false;
 }
 
 function generateSequence(){
@@ -661,56 +594,33 @@ function generateSequence(){
 }
 
 var NOTES=[262,277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,659,698,740,784,831,880,932,988,1047];
-function playTone(freq,dur){
-  if(!audioCtx)try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}
-  try{
-    if(audioCtx.state==='suspended')audioCtx.resume();
-    var osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
-    osc.type='sine';osc.frequency.value=freq;
-    osc.connect(gain);gain.connect(audioCtx.destination);
-    gain.gain.setValueAtTime(0.3,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+dur);
-    osc.start();osc.stop(audioCtx.currentTime+dur+0.05);
-  }catch(e){}
-}
+function playTone(freq,dur){if(!audioCtx)try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}try{if(audioCtx.state==='suspended')audioCtx.resume();var osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;osc.connect(gain);gain.connect(audioCtx.destination);gain.gain.setValueAtTime(0.3,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+dur);osc.start();osc.stop(audioCtx.currentTime+dur+0.05)}catch(e){}}
 function playNote(idx){playTone(NOTES[idx%25],0.2)}
 function playSuccess(){[523,659,784].forEach(function(f,i){setTimeout(function(){playTone(f,0.12)},i*80)})}
 function playError(){playTone(200,0.3)}
 
 function getCourtCenter(){var r=playCourt.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}}
-function createBurstEmoji(emoji,x,y,type){
-  var el=document.createElement('div');
-  el.className='burst-emoji'+(type?' '+type:'');
-  el.textContent=emoji;
-  var angle=Math.random()*Math.PI*2,dist=50+Math.random()*80;
-  el.style.cssText='left:'+x+'px;top:'+y+'px;--tx:'+Math.cos(angle)*dist+'px;--ty:'+Math.sin(angle)*dist+'px;--rot:'+(Math.random()-0.5)*720+'deg';
-  $('emojiContainer').appendChild(el);
-  setTimeout(function(){if(el.parentNode)el.remove()},2000);
-}
-function laughCelebration(intensity){
-  var center=getCourtCenter(),count=intensity==='party'?8:intensity==='big'?5:intensity==='medium'?3:2;
-  var emojis=intensity==='party'?PARTY_EMOJIS:LAUGH_EMOJIS;
-  var type=intensity==='party'?'party':intensity==='big'?'big':'';
-  for(var i=0;i<count;i++){
-    (function(idx){setTimeout(function(){createBurstEmoji(emojis[Math.floor(Math.random()*emojis.length)],center.x+(Math.random()-0.5)*20,center.y+(Math.random()-0.5)*20,type)},idx*35)})(i);
-  }
-  playCourt.classList.add('joy-pulse');
-  setTimeout(function(){playCourt.classList.remove('joy-pulse')},500);
-}
+function createBurstEmoji(emoji,x,y,type){var el=document.createElement('div');el.className='burst-emoji'+(type?' '+type:'');el.textContent=emoji;var angle=Math.random()*Math.PI*2,dist=50+Math.random()*80;el.style.cssText='left:'+x+'px;top:'+y+'px;--tx:'+Math.cos(angle)*dist+'px;--ty:'+Math.sin(angle)*dist+'px;--rot:'+(Math.random()-0.5)*720+'deg';$('emojiContainer').appendChild(el);setTimeout(function(){if(el.parentNode)el.remove()},2000)}
+function laughCelebration(intensity){var center=getCourtCenter(),count=intensity==='party'?8:intensity==='big'?5:intensity==='medium'?3:2;var emojis=intensity==='party'?PARTY_EMOJIS:LAUGH_EMOJIS,type=intensity==='party'?'party':intensity==='big'?'big':'';for(var i=0;i<count;i++){(function(idx){setTimeout(function(){createBurstEmoji(emojis[Math.floor(Math.random()*emojis.length)],center.x+(Math.random()-0.5)*20,center.y+(Math.random()-0.5)*20,type)},idx*35)})(i)}playCourt.classList.add('joy-pulse');setTimeout(function(){playCourt.classList.remove('joy-pulse')},500)}
 function showCoach(msg){$('coachMessage').textContent=msg;$('coachMessage').classList.add('show');setTimeout(function(){$('coachMessage').classList.remove('show')},2000)}
 
-function playSequence(cb){
+function playSequenceAnim(cb){
   var cfg=SPEED_CFG[gameState.speed]||SPEED_CFG.slow,i=0;
   function next(){
     if(!isPlaying)return;
-    if(i>0)playCells[sequence[i-1]].classList.remove('lit');
+    // Clear previous lit cell
+    if(i>0){
+      playCells[sequence[i-1]].classList.remove('lit');
+      clearDomino(playCells[sequence[i-1]]);
+    }
     if(i<sequence.length){
       var cell=playCells[sequence[i]];
       cell.classList.add('lit');
+      attachDomino(cell,sequenceDominos[i]); // show this step's domino
       playNote(sequence[i]);
       i++;
       setPlayTimeout(next,cfg.show+cfg.gap);
-    } else {
+    }else{
       setPlayTimeout(cb,300);
     }
   }
@@ -725,13 +635,16 @@ function startRound(){
   document.documentElement.style.setProperty('--flash-color',color);
   isPlaying=true;canTap=false;playerIndex=0;
   $('playActionBtn').disabled=true;
-  playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+  playCells.forEach(function(c){c.className='play-cell';clearDomino(c)});
   sequence=generateSequence();
+  // Assign domino 1…N for each step, capped at 12
+  sequenceDominos=[];
+  for(var i=0;i<sequence.length;i++) sequenceDominos.push(Math.min(i+1,12));
   $('playMessage').textContent=t('watch');
   $('playMessage').className='play-message-text watch';
   setPlayTimeout(function(){
     if(!isPlaying)return;
-    playSequence(function(){
+    playSequenceAnim(function(){
       if(!isPlaying)return;
       $('playMessage').textContent=t('yourTurn');
       $('playMessage').className='play-message-text go';
@@ -746,23 +659,22 @@ function handleTap(idx){
   cell.classList.add('player-tap');
   playNote(idx);
   setPlayTimeout(function(){cell.classList.remove('player-tap')},200);
+
   if(idx===sequence[playerIndex]){
+    // Correct — show domino for this step
     cell.classList.add('correct','show-num');
-    cell.querySelector('.cell-num').textContent=playerIndex+1;
+    attachDomino(cell,sequenceDominos[playerIndex]);
     playerIndex++;
     if(playerIndex>2)laughCelebration('small');
-    if(playerIndex>=sequence.length){
-      canTap=false;
-      roundComplete(true);
-    }
-  } else {
+    if(playerIndex>=sequence.length){canTap=false;roundComplete(true)}
+  }else{
     cell.classList.add('wrong');
-    playError();
-    canTap=false;
+    playError();canTap=false;
+    // Reveal the full correct sequence with dominos
     setPlayTimeout(function(){
-      sequence.forEach(function(i,num){
-        playCells[i].classList.add('correct','show-num');
-        playCells[i].querySelector('.cell-num').textContent=num+1;
+      sequence.forEach(function(seqIdx,num){
+        playCells[seqIdx].classList.add('correct','show-num');
+        attachDomino(playCells[seqIdx],sequenceDominos[num]);
       });
     },400);
     setPlayTimeout(function(){roundComplete(false)},1500);
@@ -773,79 +685,49 @@ function roundComplete(success){
   isPlaying=false;canTap=false;
   if(success){
     var pts=sequence.length*10*gameState.level*(gameState.speed==='fast'?3:gameState.speed==='med'?2:1);
-    gameState.score+=pts;
-    gameState.streak++;
-    gameState.roundsCompleted++;
+    gameState.score+=pts;gameState.streak++;gameState.roundsCompleted++;
     saveSpeedState();
     var intensity=gameState.streak>=5?'party':gameState.streak>=3?'big':'medium';
     var msgs=gameState.streak>=5?['🏆 LEGEND!','🏆 WOW!']:gameState.streak>=3?['🔥 FIRE!','🤣 AMAZING!']:['😄 NICE!','😊 GREAT!'];
-    playSuccess();
-    laughCelebration(intensity);
-    showCoach(msgs[Math.floor(Math.random()*msgs.length)]);
+    playSuccess();laughCelebration(intensity);showCoach(msgs[Math.floor(Math.random()*msgs.length)]);
     updatePlayUI();
-    if(gameState.roundsCompleted>=ROUNDS_PER_TIER){
-      setPlayTimeout(function(){gameState.tier<TOTAL_TIERS?tierUp():maxTier()},800);
-    } else {
-      setPlayTimeout(resetRound,1000);
-    }
-  } else {
-    gameState.streak=0;
-    saveSpeedState();
-    updatePlayUI();
-    $('playMessage').textContent=t('wrong');
-    $('playMessage').className='play-message-text error';
+    if(gameState.roundsCompleted>=ROUNDS_PER_TIER){setPlayTimeout(function(){gameState.tier<TOTAL_TIERS?tierUp():maxTier()},800)}
+    else{setPlayTimeout(resetRound,1000)}
+  }else{
+    gameState.streak=0;saveSpeedState();updatePlayUI();
+    $('playMessage').textContent=t('wrong');$('playMessage').className='play-message-text error';
     setPlayTimeout(resetRound,1500);
   }
 }
 
 function tierUp(){
-  gameState.tier++;
-  gameState.roundsCompleted=0;
-  var oldLevel=gameState.level;
-  if(gameState.level<10)gameState.level++;
-  saveSpeedState();
-  laughCelebration('party');
+  gameState.tier++;gameState.roundsCompleted=0;
+  var oldLevel=gameState.level;if(gameState.level<10)gameState.level++;
+  saveSpeedState();laughCelebration('party');
   var msg=t('tierupMsg').replace('{tier}',gameState.tier);
-  if(gameState.level>oldLevel){
-    msg+=t('tierupLvl').replace('{level}',gameState.level).replace('{seq}',getSeqLen());
-  }
-  $('tierupMessage').innerHTML=msg;
-  $('tierupOverlay').classList.add('show');
-  updatePlayUI();
+  if(gameState.level>oldLevel) msg+=t('tierupLvl').replace('{level}',gameState.level).replace('{seq}',getSeqLen());
+  $('tierupMessage').innerHTML=msg;$('tierupOverlay').classList.add('show');updatePlayUI();
 }
-
 function maxTier(){
-  gameState.roundsCompleted=0;
-  if(gameState.level<10)gameState.level=10;
-  saveSpeedState();
+  gameState.roundsCompleted=0;if(gameState.level<10)gameState.level=10;saveSpeedState();
   $('tierupMessage').innerHTML=t('masterMsg');
   document.querySelector('#tierupOverlay .overlay-emoji').textContent='👑';
-  $('tierupOverlay').classList.add('show');
-  updatePlayUI();
+  $('tierupOverlay').classList.add('show');updatePlayUI();
 }
-
-$('tierupBtn').onclick=function(){
-  $('tierupOverlay').classList.remove('show');
-  document.querySelector('#tierupOverlay .overlay-emoji').textContent='⭐';
-  resetRound();
-};
+$('tierupBtn').onclick=function(){$('tierupOverlay').classList.remove('show');document.querySelector('#tierupOverlay .overlay-emoji').textContent='⭐';resetRound()};
 
 function resetRound(){
-  clearPlayTimeouts();
-  isPlaying=false;canTap=false;playerIndex=0;sequence=[];
-  playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+  clearPlayTimeouts();isPlaying=false;canTap=false;playerIndex=0;sequence=[];sequenceDominos=[];
+  playCells.forEach(function(c){c.className='play-cell';clearDomino(c)});
   $('playMessage').textContent=(gameState.roundsCompleted+1)+'/'+ROUNDS_PER_TIER+' - '+t('tapLetsGo');
-  $('playMessage').className='play-message-text';
-  $('playActionBtn').disabled=false;
-  updatePlayUI();
+  $('playMessage').className='play-message-text';$('playActionBtn').disabled=false;updatePlayUI();
 }
-
 $('playActionBtn').onclick=startRound;
 
-initDemoCourt();
-updateUILanguage();
-startDemo();
-updateTrophyUI();
+/* =====================================================
+   INIT
+   ===================================================== */
+initDemoCourt();updateUILanguage();startDemo();updateTrophyUI();
 })();
 </script>
 <script>window.COGNITIVE_TEST_NAME='replay';</script>
