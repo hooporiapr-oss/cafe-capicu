@@ -38,6 +38,19 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .demo-cell.correct{background:var(--teal);border-color:var(--teal);box-shadow:0 0 12px rgba(0,217,165,0.5)}
 .demo-court.joy-pulse{animation:joyPulse 0.5s ease-out}
 @keyframes joyPulse{0%{box-shadow:0 0 0 0 rgba(155,89,182,0.7)}50%{box-shadow:0 0 25px 8px rgba(155,89,182,0.4)}100%{box-shadow:none}}
+
+/* ── Domino pip styles ── */
+.domino-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity 0.1s}
+.demo-cell.lit .domino-wrap,
+.demo-cell.correct .domino-wrap,
+.play-cell.target .domino-wrap,
+.play-cell.correct .domino-wrap,
+.play-cell.good-tap .domino-wrap,
+.play-cell.missed .domino-wrap{opacity:1}
+.domino-svg{width:82%;height:82%;overflow:visible}
+.pip{fill:rgba(255,255,255,0.92);transition:fill 0.1s}
+.domino-line{stroke:rgba(255,255,255,0.5);stroke-width:1;stroke-linecap:round}
+
 .playbook-section{width:100%;max-width:380px;margin:12px 0}
 .playbook-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;background:linear-gradient(135deg,rgba(155,89,182,0.08),rgba(255,215,0,0.05));border:1px solid rgba(155,89,182,0.2);border-radius:10px;cursor:pointer;transition:all 0.3s}
 .playbook-toggle:active{transform:scale(0.98);border-color:var(--purple)}
@@ -99,8 +112,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .level-info-value{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--purple)}
 .letsgo-btn{width:100%;padding:16px 24px;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--purple),var(--purple-light));color:var(--text);box-shadow:0 4px 20px rgba(155,89,182,0.3);transition:all 0.3s}
 .letsgo-btn:active{transform:scale(0.98)}
-
-/* PLAY SCREEN — clean open layout */
 #screen-play{background:var(--dark)}
 .play-container{display:flex;flex-direction:column;align-items:center;max-width:420px;margin:0 auto;min-height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top) - 40px)}
 .play-stats{display:flex;justify-content:center;gap:16px;margin-bottom:10px;width:100%}
@@ -139,7 +150,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .play-action-btn{width:100%;max-width:340px;padding:16px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--purple-light));color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;cursor:pointer;margin-top:auto;box-shadow:0 4px 16px rgba(155,89,182,0.3)}
 .play-action-btn:active{transform:scale(0.97)}
 .play-action-btn:disabled{opacity:0.4;cursor:not-allowed}
-
 .emoji-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
 .burst-emoji{position:absolute;font-size:1.6rem;animation:emojiBurst 1.2s ease-out forwards}
 @keyframes emojiBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(0.3)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.8) rotate(var(--rot))}}
@@ -284,42 +294,163 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 </div>
 <div class="emoji-container" id="emoC"></div>
 <div class="coach-message" id="coach"></div>
+
 <script>
 (function(){
 var $=function(id){return document.getElementById(id)},$$=function(sel){return document.querySelectorAll(sel)};
 var curScr='demo';
 var cL='en';
-var T={en:{db:'Basketball Money',ds:'The Single-Beat Brake Read',dlr:'⚡ REACT!',dls:'✅ PERFECT!',pb:'THE PLAYBOOK',ot:'OBJECTIVE',s1:'A cell <strong>lights up purple</strong> on the grid',s2:'<strong>Tap it</strong> as fast as you can!',s3:'Next cell lights up — <strong>react again!</strong>',pt:'PROGRESSION',p1:'Get <strong>2 perfect rounds</strong> to level up',p2:'Higher levels = <strong>more cells</strong> per round',p3:'You have <strong>3 lives (♥♥♥)</strong> per round',st:'BPM SPEEDS',sp1:'<strong>Training (60 BPM)</strong> — 1 cell per second',sp2:'<strong>Tempo (90 BPM)</strong> — Faster rhythm',sp3:'<strong>Elite (120 BPM)</strong> — 2 cells per second!',tt:'TIP',tx:"Keep your eyes on the whole grid — don't tunnel vision on one area!",pn:'▶ PLAY NOW',pw:'Powered by',trt:'YOUR PROGRESS',trs:'Reaction Control Levels',ss:'SELECT BPM SPEED',tf:'✓ FREE',sl:'SELECT LEVEL',cb:'Cells per round:',lg:"LET'S GO!",ll:'Level',rl:'Round',scl:'Score',lu:'LEVEL UP:',tlg:"TAP LET'S GO!",gr:'GET READY...',react:'⚡ REACT!',pf:'✨ SWISH!',gd:'👍 BUCKET!',kg:'💨 KEEP GOING!',wc:'❌ WRONG CELL',ap:'🔥 ALL PERFECT!',li:'🔥 LOCKED IN!',ol:'OUT OF LIVES',ob:'OFF THE BEAT',ta:'💪 Try again!',cl:'🏀 Locked in!',cm:'🏀 Machine!',cn:'🏀 Nice!',cf:'🔥 On fire!',lm:'You are now Level {level}!<br>Cells: {cells} per round',lt:'LEVEL UP!',ml:'👑 MAX LEVEL!'},
-es:{db:'Basketball Money',ds:'La Lectura del Freno en un Solo Beat',dlr:'⚡ ¡REACCIONA!',dls:'✅ ¡PERFECTO!',pb:'EL MANUAL',ot:'OBJETIVO',s1:'Una celda <strong>se ilumina púrpura</strong> en la cuadrícula',s2:'<strong>¡Tócala</strong> lo más rápido que puedas!',s3:'La siguiente se ilumina — <strong>¡reacciona otra vez!</strong>',pt:'PROGRESIÓN',p1:'Consigue <strong>2 rondas perfectas</strong> para subir de nivel',p2:'Niveles más altos = <strong>más celdas</strong> por ronda',p3:'Tienes <strong>3 vidas (♥♥♥)</strong> por ronda',st:'VELOCIDADES BPM',sp1:'<strong>Entrenamiento (60 BPM)</strong> — 1 celda por segundo',sp2:'<strong>Tempo (90 BPM)</strong> — Ritmo más rápido',sp3:'<strong>Elite (120 BPM)</strong> — ¡2 celdas por segundo!',tt:'CONSEJO',tx:'¡Mantén los ojos en toda la cuadrícula — no te enfoques en una sola área!',pn:'▶ JUGAR AHORA',pw:'Impulsado por',trt:'TU PROGRESO',trs:'Niveles de Reaction Control',ss:'SELECCIONA VELOCIDAD BPM',tf:'✓ GRATIS',sl:'SELECCIONA NIVEL',cb:'Celdas por ronda:',lg:"¡PA'LANTE!",ll:'Nivel',rl:'Ronda',scl:'Puntos',lu:'SUBIR:',tlg:"¡TOCA PA'LANTE!",gr:'PREPÁRATE...',react:'⚡ ¡REACCIONA!',pf:'✨ ¡SWISH!',gd:'👍 ¡BUCKET!',kg:'💨 ¡SIGUE!',wc:'❌ CELDA INCORRECTA',ap:'🔥 ¡PERFECCIÓN TOTAL!',li:'🔥 ¡CONECTADO!',ol:'SIN VIDAS',ob:'FUERA DE RITMO',ta:'💪 ¡Otra vez!',cl:'🏀 ¡Conectado!',cm:'🏀 ¡Máquina!',cn:'🏀 ¡Bien!',cf:'🔥 ¡En fuego!',lm:'¡Ahora estás en Nivel {level}!<br>Celdas: {cells} por ronda',lt:'¡SUBISTE!',ml:'👑 ¡NIVEL MÁXIMO!'}};
+
+/* =====================================================
+   DOMINO PIP SVG ENGINE — shared with Game 1
+   1-6  = single face
+   7-12 = split face (left|right separated by line)
+   ===================================================== */
+var PIP_LAYOUTS={
+  0:[],
+  1:[[15,15]],
+  2:[[8,8],[22,22]],
+  3:[[8,8],[15,15],[22,22]],
+  4:[[8,8],[22,8],[8,22],[22,22]],
+  5:[[8,8],[22,8],[15,15],[8,22],[22,22]],
+  6:[[8,7],[22,7],[8,15],[22,15],[8,23],[22,23]]
+};
+
+var SPLIT_MAP={7:[5,2],8:[6,2],9:[6,3],10:[6,4],11:[6,5],12:[6,6]};
+
+function makePips(layout,r,ox,oy){
+  return layout.map(function(p){
+    return '<circle class="pip" cx="'+(p[0]+ox)+'" cy="'+(p[1]+oy)+'" r="'+r+'"/>';
+  }).join('');
+}
+
+function makePipsScaled(layout,r,aX,aY,aW,aH){
+  return layout.map(function(p){
+    var cx=aX+(p[0]/30)*aW;
+    var cy=aY+(p[1]/30)*aH;
+    return '<circle class="pip" cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+r+'"/>';
+  }).join('');
+}
+
+function getDominoSVG(num){
+  if(num<=6){
+    var r=3.2,layout=PIP_LAYOUTS[num]||[];
+    var pips=makePips(layout,r,3,3);
+    return '<svg class="domino-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">'
+      +'<rect x="1" y="1" width="34" height="34" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>'
+      +pips+'</svg>';
+  }
+  var splits=SPLIT_MAP[num]||[6,num-6];
+  var lPips=makePipsScaled(PIP_LAYOUTS[splits[0]]||[],2.5,2,3,14,30);
+  var rPips=makePipsScaled(PIP_LAYOUTS[splits[1]]||[],2.5,20,3,14,30);
+  return '<svg class="domino-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">'
+    +'<rect x="1" y="1" width="34" height="34" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>'
+    +'<line class="domino-line" x1="18" y1="3" x2="18" y2="33"/>'
+    +lPips+rPips+'</svg>';
+}
+
+function attachDomino(cellEl,num){
+  var wrap=cellEl.querySelector('.domino-wrap');
+  if(wrap) wrap.innerHTML=getDominoSVG(num);
+}
+
+function clearDomino(cellEl){
+  var wrap=cellEl.querySelector('.domino-wrap');
+  if(wrap) wrap.innerHTML='';
+}
+
+/* =====================================================
+   TRANSLATIONS
+   ===================================================== */
+var T={en:{db:'Basketball Money',ds:'The Single-Beat Brake Read',dlr:'⚡ REACT!',dls:'✅ PERFECT!',pb:'THE PLAYBOOK',ot:'OBJECTIVE',s1:'A cell <strong>lights up purple</strong> — with a domino pip',s2:'<strong>Tap it</strong> as fast as you can!',s3:'Next domino lights up — <strong>react again!</strong>',pt:'PROGRESSION',p1:'Get <strong>2 perfect rounds</strong> to level up',p2:'Higher levels = <strong>more cells</strong> per round',p3:'You have <strong>3 lives (♥♥♥)</strong> per round',st:'BPM SPEEDS',sp1:'<strong>Training (60 BPM)</strong> — 1 cell per second',sp2:'<strong>Tempo (90 BPM)</strong> — Faster rhythm',sp3:'<strong>Elite (120 BPM)</strong> — 2 cells per second!',tt:'TIP',tx:"Keep your eyes on the whole grid — don't tunnel vision on one area!",pn:'▶ PLAY NOW',pw:'Powered by',trt:'YOUR PROGRESS',trs:'Reaction Control Levels',ss:'SELECT BPM SPEED',tf:'✓ FREE',sl:'SELECT LEVEL',cb:'Cells per round:',lg:"LET'S GO!",ll:'Level',rl:'Round',scl:'Score',lu:'LEVEL UP:',tlg:"TAP LET'S GO!",gr:'GET READY...',react:'⚡ REACT!',pf:'✨ SWISH!',gd:'👍 BUCKET!',kg:'💨 KEEP GOING!',wc:'❌ WRONG CELL',ap:'🔥 ALL PERFECT!',li:'🔥 LOCKED IN!',ol:'OUT OF LIVES',ob:'OFF THE BEAT',ta:'💪 Try again!',cl:'🏀 Locked in!',cm:'🏀 Machine!',cn:'🏀 Nice!',cf:'🔥 On fire!',lm:'You are now Level {level}!<br>Cells: {cells} per round',lt:'LEVEL UP!',ml:'👑 MAX LEVEL!'},
+es:{db:'Basketball Money',ds:'La Lectura del Freno en un Solo Beat',dlr:'⚡ ¡REACCIONA!',dls:'✅ ¡PERFECTO!',pb:'EL MANUAL',ot:'OBJETIVO',s1:'Una celda <strong>se ilumina con un dominó</strong> en la cuadrícula',s2:'<strong>¡Tócala</strong> lo más rápido que puedas!',s3:'El siguiente dominó se ilumina — <strong>¡reacciona otra vez!</strong>',pt:'PROGRESIÓN',p1:'Consigue <strong>2 rondas perfectas</strong> para subir de nivel',p2:'Niveles más altos = <strong>más celdas</strong> por ronda',p3:'Tienes <strong>3 vidas (♥♥♥)</strong> por ronda',st:'VELOCIDADES BPM',sp1:'<strong>Entrenamiento (60 BPM)</strong> — 1 celda por segundo',sp2:'<strong>Tempo (90 BPM)</strong> — Ritmo más rápido',sp3:'<strong>Elite (120 BPM)</strong> — ¡2 celdas por segundo!',tt:'CONSEJO',tx:'¡Mantén los ojos en toda la cuadrícula — no te enfoques en una sola área!',pn:'▶ JUGAR AHORA',pw:'Impulsado por',trt:'TU PROGRESO',trs:'Niveles de Reaction Control',ss:'SELECCIONA VELOCIDAD BPM',tf:'✓ GRATIS',sl:'SELECCIONA NIVEL',cb:'Celdas por ronda:',lg:"¡PA'LANTE!",ll:'Nivel',rl:'Ronda',scl:'Puntos',lu:'SUBIR:',tlg:"¡TOCA PA'LANTE!",gr:'PREPÁRATE...',react:'⚡ ¡REACCIONA!',pf:'✨ ¡SWISH!',gd:'👍 ¡BUCKET!',kg:'💨 ¡SIGUE!',wc:'❌ CELDA INCORRECTA',ap:'🔥 ¡PERFECCIÓN TOTAL!',li:'🔥 ¡CONECTADO!',ol:'SIN VIDAS',ob:'FUERA DE RITMO',ta:'💪 ¡Otra vez!',cl:'🏀 ¡Conectado!',cm:'🏀 ¡Máquina!',cn:'🏀 ¡Bien!',cf:'🔥 ¡En fuego!',lm:'¡Ahora estás en Nivel {level}!<br>Celdas: {cells} por ronda',lt:'¡SUBISTE!',ml:'👑 ¡NIVEL MÁXIMO!'}};
 function t(k){return(T[cL]||T.en)[k]||k}
-function uUI(){$('demoBadge').textContent=t('db');$('demoSubtitle').textContent=t('ds');$('pbText').textContent=t('pb');$('objT').textContent=t('ot');$('s1').innerHTML=t('s1');$('s2').innerHTML=t('s2');$('s3').innerHTML=t('s3');$('progT').textContent=t('pt');$('p1').innerHTML=t('p1');$('p2').innerHTML=t('p2');$('p3').innerHTML=t('p3');$('spdT').textContent=t('st');$('sp1').innerHTML=t('sp1');$('sp2').innerHTML=t('sp2');$('sp3').innerHTML=t('sp3');$('tipT').textContent=t('tt');$('tipTx').textContent=t('tx');$('playNowBtn').textContent=t('pn');$('pwBy').textContent=t('pw');$('trT').textContent=t('trt');$('trS').textContent=t('trs');$('ssT').textContent=t('ss');$('tsS').textContent=t('tf');$('tsM').textContent=t('tf');$('tsF').textContent=t('tf');$('slT').textContent=t('sl');$('cpbL').textContent=t('cb');$('letsGoBtn').textContent=t('lg');$('pLvL').textContent=t('ll');$('pRdL').textContent=t('rl');$('pScL').textContent=t('scl');$('luL').textContent=t('lu');$('pAct').textContent=t('lg');$('luTtl').textContent=t('lt');$('luBtn').textContent=t('lg');$('langEN').classList.toggle('active',cL==='en');$('langES').classList.toggle('active',cL==='es')}
+
+function uUI(){
+  $('demoBadge').textContent=t('db');$('demoSubtitle').textContent=t('ds');
+  $('pbText').textContent=t('pb');$('objT').textContent=t('ot');
+  $('s1').innerHTML=t('s1');$('s2').innerHTML=t('s2');$('s3').innerHTML=t('s3');
+  $('progT').textContent=t('pt');$('p1').innerHTML=t('p1');$('p2').innerHTML=t('p2');$('p3').innerHTML=t('p3');
+  $('spdT').textContent=t('st');$('sp1').innerHTML=t('sp1');$('sp2').innerHTML=t('sp2');$('sp3').innerHTML=t('sp3');
+  $('tipT').textContent=t('tt');$('tipTx').textContent=t('tx');
+  $('playNowBtn').textContent=t('pn');$('pwBy').textContent=t('pw');
+  $('trT').textContent=t('trt');$('trS').textContent=t('trs');$('ssT').textContent=t('ss');
+  $('tsS').textContent=t('tf');$('tsM').textContent=t('tf');$('tsF').textContent=t('tf');
+  $('slT').textContent=t('sl');$('cpbL').textContent=t('cb');$('letsGoBtn').textContent=t('lg');
+  $('pLvL').textContent=t('ll');$('pRdL').textContent=t('rl');$('pScL').textContent=t('scl');
+  $('luL').textContent=t('lu');$('pAct').textContent=t('lg');
+  $('luTtl').textContent=t('lt');$('luBtn').textContent=t('lg');
+  $('langEN').classList.toggle('active',cL==='en');$('langES').classList.toggle('active',cL==='es');
+}
 function setLang(l){cL=l;localStorage.setItem('lc-lang',l);uUI()}
 $('langEN').onclick=function(){setLang('en')};$('langES').onclick=function(){setLang('es')};
 var savedLang=localStorage.getItem('lc-lang');if(savedLang)cL=savedLang;
 
-function showScr(name){$$('.screen').forEach(function(s){s.classList.remove('active')});curScr=name;document.querySelector('.nav-lang').style.display=name==='play'?'none':'flex';$('screen-'+name).classList.add('active');if(name==='demo')startDemo();if(name==='trophy')uTr()}
+function showScr(name){
+  $$('.screen').forEach(function(s){s.classList.remove('active')});
+  curScr=name;
+  document.querySelector('.nav-lang').style.display=name==='play'?'none':'flex';
+  $('screen-'+name).classList.add('active');
+  if(name==='demo')startDemo();
+  if(name==='trophy')uTr();
+}
 
-/* DEMO — pure reaction: cell lights up, gets tapped, next */
+/* =====================================================
+   DEMO — reaction: cell lights up with domino, gets tapped, next
+   ===================================================== */
 var dCrt=$('demoCourt'),dLbl=$('demoLabel'),dCells=[],dEp=0,dTm=[];
-var DP=[3,17,8,21,12];
-function initDC(){dCrt.innerHTML='';dCells=[];for(var i=0;i<25;i++){var c=document.createElement('div');c.className='demo-cell';dCrt.appendChild(c);dCells.push(c)}}
+var DP=[3,17,8,21,12]; // fixed demo pattern positions
+var DP_NUMS=[1,2,3,4,5]; // domino values for demo cells
+
+function initDC(){
+  dCrt.innerHTML='';dCells=[];
+  for(var i=0;i<25;i++){
+    var c=document.createElement('div');c.className='demo-cell';
+    var w=document.createElement('div');w.className='domino-wrap';
+    c.appendChild(w);dCrt.appendChild(c);dCells.push(c);
+  }
+}
+
 function sdt(fn,d){var id=setTimeout(function(){var i=dTm.indexOf(id);if(i>-1)dTm.splice(i,1);fn()},d);dTm.push(id);return id}
 function cdt(){dTm.forEach(function(id){clearTimeout(id)});dTm=[]}
-function runD(ep){if(ep!==dEp||curScr!=='demo')return;dCells.forEach(function(c){c.className='demo-cell'});dLbl.textContent=t('dlr');dLbl.className='demo-label phase-react';
-var bi=0;
-function beat(){if(ep!==dEp)return;dCells.forEach(function(c){c.className='demo-cell'});
-if(bi>=DP.length){dLbl.textContent=t('dls');dLbl.className='demo-label phase-success';dCrt.classList.add('joy-pulse');setTimeout(function(){dCrt.classList.remove('joy-pulse')},500);sdt(function(){runD(ep)},2000);return}
-/* Light up cell */
-dCells[DP[bi]].classList.add('lit');
-/* After short delay, "tap" it — turns teal */
-sdt(function(){if(ep!==dEp)return;dCells[DP[bi]].classList.remove('lit');dCells[DP[bi]].classList.add('correct');bi++;sdt(beat,400)},500)}
-sdt(beat,600)}
+
+function runD(ep){
+  if(ep!==dEp||curScr!=='demo')return;
+  dCells.forEach(function(c){c.className='demo-cell';clearDomino(c)});
+  dLbl.textContent=t('dlr');dLbl.className='demo-label phase-react';
+  var bi=0;
+  function beat(){
+    if(ep!==dEp)return;
+    dCells.forEach(function(c){if(!c.classList.contains('correct')){c.className='demo-cell';clearDomino(c)}});
+    if(bi>=DP.length){
+      dLbl.textContent=t('dls');dLbl.className='demo-label phase-success';
+      dCrt.classList.add('joy-pulse');setTimeout(function(){dCrt.classList.remove('joy-pulse')},500);
+      sdt(function(){runD(ep)},2000);return;
+    }
+    // Light up with domino
+    var cellIdx=DP[bi],domNum=DP_NUMS[bi];
+    dCells[cellIdx].classList.add('lit');
+    attachDomino(dCells[cellIdx],domNum);
+    // After tap delay — turns correct (teal)
+    sdt(function(){
+      if(ep!==dEp)return;
+      dCells[cellIdx].classList.remove('lit');
+      dCells[cellIdx].classList.add('correct');
+      bi++;sdt(beat,400);
+    },500);
+  }
+  sdt(beat,600);
+}
+
 function startDemo(){dEp++;cdt();runD(dEp)}
 function stopDemo(){dEp++;cdt()}
+
 $('playbookToggle').onclick=function(){$('playbookToggle').classList.toggle('open');$('playbookContent').classList.toggle('open')};
 $('playNowBtn').onclick=function(){stopDemo();showScr('trophy')};
 
-/* GAME STATE */
+/* =====================================================
+   GAME STATE
+   ===================================================== */
 var g={speed:'slow',level:1,score:0,streak:0,pc:0,round:0,lives:3},ML=3,PW=300,GW=600;
 function gcc(lv){return lv+2}
 function getIV(){return g.speed==='fast'?500:g.speed==='med'?667:1000}
@@ -327,13 +458,28 @@ function sk(sp,k){return'lc-reaction-'+sp+'-'+k}
 function ld(sp){return{level:parseInt(localStorage.getItem(sk(sp,'level')))||1,score:parseInt(localStorage.getItem(sk(sp,'score')))||0,streak:parseInt(localStorage.getItem(sk(sp,'streak')))||0}}
 function sv(){localStorage.setItem(sk(g.speed,'level'),g.level);localStorage.setItem(sk(g.speed,'score'),g.score);localStorage.setItem(sk(g.speed,'streak'),g.streak);if(typeof syncCognitiveScore==='function')syncCognitiveScore(g.speed,g.level,g.score,g.streak,1)}
 
-function uTr(){var s=ld('slow'),m=ld('med'),f=ld('fast');$('lS').textContent='LEVEL '+s.level;$('sS').textContent=s.score+' pts';$('lM').textContent='LEVEL '+m.level;$('sM').textContent=m.score+' pts';$('lF').textContent='LEVEL '+f.level;$('sF').textContent=f.score+' pts';$$('.bpm-tier').forEach(function(t){t.classList.remove('active')});if(g.speed==='slow')$('tierSlow').classList.add('active');else if(g.speed==='med')$('tierMed').classList.add('active');else $('tierFast').classList.add('active');$$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===g.level)});$('cpbV').textContent=gcc(g.level)}
+function uTr(){
+  var s=ld('slow'),m=ld('med'),f=ld('fast');
+  $('lS').textContent='LEVEL '+s.level;$('sS').textContent=s.score+' pts';
+  $('lM').textContent='LEVEL '+m.level;$('sM').textContent=m.score+' pts';
+  $('lF').textContent='LEVEL '+f.level;$('sF').textContent=f.score+' pts';
+  $$('.bpm-tier').forEach(function(t){t.classList.remove('active')});
+  if(g.speed==='slow')$('tierSlow').classList.add('active');
+  else if(g.speed==='med')$('tierMed').classList.add('active');
+  else $('tierFast').classList.add('active');
+  $$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===g.level)});
+  $('cpbV').textContent=gcc(g.level);
+}
 $$('.bpm-tier').forEach(function(tier){tier.onclick=function(){var sp=tier.dataset.speed;g.speed=sp;var d=ld(sp);g.level=d.level;g.score=d.score;g.streak=d.streak;g.pc=0;g.round=0;uTr()}});
 $$('.level-btn').forEach(function(btn){btn.onclick=function(){g.level=parseInt(btn.dataset.level);g.pc=0;g.round=0;sv();uTr()}});
 $('letsGoBtn').onclick=function(){showScr('play');initG()};
 
-/* PLAY */
-var pCrt=$('playCourt'),pCells=[],pattern=[],tapRes=[],bTm=[],missTimer=null;
+/* =====================================================
+   PLAY COURT
+   Each pattern cell gets a pre-assigned domino number (1…N)
+   That domino appears when the cell fires as the target
+   ===================================================== */
+var pCrt=$('playCourt'),pCells=[],pattern=[],patternDominos=[],tapRes=[],bTm=[],missTimer=null;
 var phase='idle',beatIdx=0,awaitingTap=false,tapReceived=false,currentBeatTime=0,currentTarget=-1;
 var aCtx=null;
 var LE=['😂','😆','🤣','😄','😁','🥳','😊','🏀'],PE=['🥳','🎉','😂','🤣','✨','💫','🏀','🏆'];
@@ -342,58 +488,172 @@ function gAC(){if(!aCtx)try{aCtx=new(window.AudioContext||window.webkitAudioCont
 function bp(f,d,v,ty){var c=gAC();if(!c)return;try{if(c.state==='suspended')c.resume();var o=c.createOscillator(),g2=c.createGain();o.type=ty||'sine';o.frequency.value=f;o.connect(g2);g2.connect(c.destination);g2.gain.setValueAtTime(v||.15,c.currentTime);g2.gain.exponentialRampToValueAtTime(.01,c.currentTime+(d||.1));o.start();o.stop(c.currentTime+(d||.1)+.02)}catch(e){}}
 function tkS(){bp(880,.04,.12)}function pfS(){bp(1300,.08,.15);setTimeout(function(){bp(1600,.06,.12)},60)}function gdS(){bp(1000,.06,.1)}function flS(){bp(200,.25,.15,'sawtooth')}
 
-function initPC(){pCrt.innerHTML='';pCells=[];for(var i=0;i<25;i++){var c=document.createElement('div');c.className='play-cell';c.dataset.index=i;c.onclick=(function(idx){return function(){hTap(idx)}})(i);pCrt.appendChild(c);pCells.push(c)}}
+function initPC(){
+  pCrt.innerHTML='';pCells=[];
+  for(var i=0;i<25;i++){
+    var c=document.createElement('div');c.className='play-cell';c.dataset.index=i;
+    var w=document.createElement('div');w.className='domino-wrap';
+    c.appendChild(w);
+    c.onclick=(function(idx){return function(){hTap(idx)}})(i);
+    pCrt.appendChild(c);pCells.push(c);
+  }
+}
 
-function uPU(){$('pLv').textContent=g.level;$('pRd').textContent=g.round;$('pSt').textContent=g.streak;$('pSc').textContent=g.score;$('pTot').textContent=g.score;var sp=g.speed==='slow'?'TRAINING':g.speed==='med'?'TEMPO':'ELITE';$('pBdg').textContent='L'+g.level+' '+sp;$('pTap').textContent=tapRes.length+'/'+gcc(g.level);$('st1').className=g.pc>=1?'play-progress-star earned':'play-progress-star';$('st2').className=g.pc>=2?'play-progress-star earned':'play-progress-star';var h='';for(var i=0;i<ML;i++)h+=i<g.lives?'♥':'♡';$('pLiv').textContent=h;$('pLiv').style.color=g.lives<=1?'var(--pink)':'var(--purple)'}
+function uPU(){
+  $('pLv').textContent=g.level;$('pRd').textContent=g.round;$('pSt').textContent=g.streak;
+  $('pSc').textContent=g.score;$('pTot').textContent=g.score;
+  var sp=g.speed==='slow'?'TRAINING':g.speed==='med'?'TEMPO':'ELITE';
+  $('pBdg').textContent='L'+g.level+' '+sp;
+  $('pTap').textContent=tapRes.length+'/'+gcc(g.level);
+  $('st1').className=g.pc>=1?'play-progress-star earned':'play-progress-star';
+  $('st2').className=g.pc>=2?'play-progress-star earned':'play-progress-star';
+  var h='';for(var i=0;i<ML;i++)h+=i<g.lives?'♥':'♡';
+  $('pLiv').textContent=h;$('pLiv').style.color=g.lives<=1?'var(--pink)':'var(--purple)';
+}
 
 function clrT(){bTm.forEach(function(t){clearTimeout(t)});bTm=[];if(missTimer){clearTimeout(missTimer);missTimer=null}}
-function clrC(){pCells.forEach(function(c){c.className='play-cell'})}
+function clrC(){pCells.forEach(function(c){c.className='play-cell';clearDomino(c)})}
 
 function gCC(){var r=pCrt.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}}
 function cBE(emoji,x,y,type){var el=document.createElement('div');el.className='burst-emoji'+(type?' '+type:'');el.textContent=emoji;var a=Math.random()*Math.PI*2,d=50+Math.random()*80;el.style.cssText='left:'+x+'px;top:'+y+'px;--tx:'+Math.cos(a)*d+'px;--ty:'+Math.sin(a)*d+'px;--rot:'+(Math.random()-.5)*720+'deg';$('emoC').appendChild(el);setTimeout(function(){if(el.parentNode)el.remove()},2000)}
 function laugh(i){var c=gCC();var cnt=i==='party'?8:i==='big'?5:i==='medium'?3:2;var em=i==='party'?PE:LE;var ty=i==='party'?'party':i==='big'?'big':'';for(var j=0;j<cnt;j++){(function(x){setTimeout(function(){cBE(em[Math.floor(Math.random()*em.length)],c.x+(Math.random()-.5)*20,c.y+(Math.random()-.5)*20,ty)},x*35)})(j)}pCrt.classList.add('joy-pulse');setTimeout(function(){pCrt.classList.remove('joy-pulse')},500)}
 function coach(m){$('coach').textContent=m;$('coach').classList.add('show');setTimeout(function(){$('coach').classList.remove('show')},2000)}
 
-function genPat(){var len=gcc(g.level),indices=[];while(indices.length<len){var idx=Math.floor(Math.random()*25);if(indices.indexOf(idx)===-1)indices.push(idx)}return indices}
+function genPat(){
+  var len=gcc(g.level),indices=[];
+  while(indices.length<len){var idx=Math.floor(Math.random()*25);if(indices.indexOf(idx)===-1)indices.push(idx)}
+  return indices;
+}
 
-function initG(){initPC();var d=ld(g.speed);g.level=d.level;g.score=d.score;g.streak=d.streak;g.pc=0;g.round=0;g.lives=ML;phase='idle';tapRes=[];uPU();$('pMsg').textContent=t('tlg');$('pAct').disabled=false}
+function initG(){
+  initPC();var d=ld(g.speed);g.level=d.level;g.score=d.score;g.streak=d.streak;
+  g.pc=0;g.round=0;g.lives=ML;phase='idle';tapRes=[];patternDominos=[];uPU();
+  $('pMsg').textContent=t('tlg');$('pAct').disabled=false;
+}
 
-/* START ROUND — no watch phase, go straight to reaction */
-function startRound(){if(phase!=='idle')return;gAC();phase='playing';g.round++;g.lives=ML;tapRes=[];pattern=genPat();beatIdx=-1;$('pAct').disabled=true;uPU();clrC();$('pMsg').textContent=t('gr');$('pMsg').className='play-message-text watch';
-/* Brief get-ready pause then fire first cell */
-bTm.push(setTimeout(function(){$('pMsg').textContent=t('react');$('pMsg').className='play-message-text go';bTm.push(setTimeout(function(){fireBeat(0)},300))},700))}
+function startRound(){
+  if(phase!=='playing'){}else{return}
+  gAC();phase='playing';g.round++;g.lives=ML;tapRes=[];
+  pattern=genPat();
+  // Assign domino numbers 1…N to each position in pattern order
+  patternDominos=[];
+  for(var i=0;i<pattern.length;i++) patternDominos.push(i+1);
+  beatIdx=-1;
+  $('pAct').disabled=true;uPU();clrC();
+  $('pMsg').textContent=t('gr');$('pMsg').className='play-message-text watch';
+  bTm.push(setTimeout(function(){
+    $('pMsg').textContent=t('react');$('pMsg').className='play-message-text go';
+    bTm.push(setTimeout(function(){fireBeat(0)},300));
+  },700));
+}
 
-function fireBeat(idx){if(phase!=='playing'||idx<=beatIdx)return;var interval=getIV(),cellIdx=pattern[idx];
-/* Clear previous targets */
-pCells.forEach(function(c){if(c.classList.contains('target'))c.classList.remove('target')});
-/* Light up target */
-pCells[cellIdx].classList.add('target');tkS();pCrt.classList.add('beat-pulse');bTm.push(setTimeout(function(){pCrt.classList.remove('beat-pulse')},150));
-beatIdx=idx;awaitingTap=true;tapReceived=false;currentBeatTime=performance.now();currentTarget=cellIdx;
-/* Auto-hide after 55% of interval */
-bTm.push(setTimeout(function(){if(pCells[cellIdx].classList.contains('target'))pCells[cellIdx].classList.remove('target')},interval*0.55));
-/* Miss timer */
-if(missTimer){clearTimeout(missTimer);missTimer=null}
-missTimer=setTimeout(function(){if(phase==='playing'&&!tapReceived&&beatIdx===idx){awaitingTap=false;g.lives--;pCells[cellIdx].classList.add('missed');flS();tapRes.push('miss');uPU();if(g.lives<=0){pCrt.classList.add('shake');setTimeout(function(){pCrt.classList.remove('shake')},300);endRound(false,t('ol'))}else{$('pMsg').textContent=t('kg');$('pMsg').className='play-message-text miss'}}},interval*0.9);
-/* Schedule next beat */
-if(idx<pattern.length-1){bTm.push(setTimeout(function(){fireBeat(idx+1)},interval))}else{/* Last beat — after miss timer window, end round if all tapped */
-bTm.push(setTimeout(function(){if(phase==='playing'&&tapRes.length>=pattern.length){endRound(true)}},interval))}}
+function fireBeat(idx){
+  if(phase!=='playing'||idx<=beatIdx)return;
+  var interval=getIV(),cellIdx=pattern[idx],domNum=patternDominos[idx];
+  // Clear previous target visuals (keep correct ones)
+  pCells.forEach(function(c){if(c.classList.contains('target')){c.classList.remove('target');clearDomino(c)}});
+  // Light up with domino
+  pCells[cellIdx].classList.add('target');
+  attachDomino(pCells[cellIdx],domNum);
+  tkS();
+  pCrt.classList.add('beat-pulse');bTm.push(setTimeout(function(){pCrt.classList.remove('beat-pulse')},150));
+  beatIdx=idx;awaitingTap=true;tapReceived=false;currentBeatTime=performance.now();currentTarget=cellIdx;
+  // Auto-hide after 55% of interval
+  bTm.push(setTimeout(function(){
+    if(pCells[cellIdx].classList.contains('target')){
+      pCells[cellIdx].classList.remove('target');
+      clearDomino(pCells[cellIdx]);
+    }
+  },interval*0.55));
+  // Miss timer
+  if(missTimer){clearTimeout(missTimer);missTimer=null}
+  missTimer=setTimeout(function(){
+    if(phase==='playing'&&!tapReceived&&beatIdx===idx){
+      awaitingTap=false;g.lives--;
+      pCells[cellIdx].classList.add('missed');
+      attachDomino(pCells[cellIdx],domNum); // show what was missed
+      flS();tapRes.push('miss');uPU();
+      if(g.lives<=0){pCrt.classList.add('shake');setTimeout(function(){pCrt.classList.remove('shake')},300);endRound(false,t('ol'))}
+      else{$('pMsg').textContent=t('kg');$('pMsg').className='play-message-text miss'}
+    }
+  },interval*0.9);
+  // Schedule next beat
+  if(idx<pattern.length-1){bTm.push(setTimeout(function(){fireBeat(idx+1)},interval))}
+  else{bTm.push(setTimeout(function(){if(phase==='playing'&&tapRes.length>=pattern.length){endRound(true)}},interval))}
+}
 
-function hTap(idx){gAC();if(phase!=='playing'||!awaitingTap||tapReceived)return;tapReceived=true;if(missTimer){clearTimeout(missTimer);missTimer=null}var expected=currentTarget;var delta=performance.now()-currentBeatTime;var curBeat=beatIdx;
-if(idx!==expected){g.lives--;pCells[idx].classList.add('missed');flS();tapRes.push('miss');uPU();if(g.lives<=0){pCrt.classList.add('shake');setTimeout(function(){pCrt.classList.remove('shake')},300);endRound(false,t('ol'))}else{awaitingTap=false;$('pMsg').textContent=t('wc');$('pMsg').className='play-message-text miss'}return}
-var rating,points;if(delta<=PW){rating='perfect';points=20}else if(delta<=GW){rating='good';points=12}else{rating='good';points=5}
-pCells[idx].classList.remove('target');pCells[idx].classList.add(rating==='perfect'?'correct':'good-tap');tapRes.push(rating);g.score+=points;uPU();sv();
-if(rating==='perfect'){pfS();$('pMsg').textContent=t('pf');$('pMsg').className='play-message-text perfect'}else{gdS();$('pMsg').textContent=t('gd');$('pMsg').className='play-message-text good'}
-if(tapRes.length%4===0)laugh('small');awaitingTap=false;
-if(curBeat>=pattern.length-1){setTimeout(function(){endRound(true)},300)}}
+function hTap(idx){
+  gAC();if(phase!=='playing'||!awaitingTap||tapReceived)return;
+  tapReceived=true;
+  if(missTimer){clearTimeout(missTimer);missTimer=null}
+  var expected=currentTarget,delta=performance.now()-currentBeatTime,curBeat=beatIdx;
+  var domNum=patternDominos[curBeat];
+  if(idx!==expected){
+    g.lives--;
+    pCells[idx].classList.add('missed');
+    attachDomino(pCells[idx],domNum); // show the domino on the wrong cell briefly
+    setTimeout(function(){pCells[idx].classList.remove('missed');clearDomino(pCells[idx])},400);
+    flS();tapRes.push('miss');uPU();
+    if(g.lives<=0){pCrt.classList.add('shake');setTimeout(function(){pCrt.classList.remove('shake')},300);endRound(false,t('ol'))}
+    else{awaitingTap=false;$('pMsg').textContent=t('wc');$('pMsg').className='play-message-text miss'}
+    return;
+  }
+  var rating,points;
+  if(delta<=PW){rating='perfect';points=20}
+  else if(delta<=GW){rating='good';points=12}
+  else{rating='good';points=5}
+  pCells[idx].classList.remove('target');
+  pCells[idx].classList.add(rating==='perfect'?'correct':'good-tap');
+  attachDomino(pCells[idx],domNum); // keep domino visible on tapped cell
+  tapRes.push(rating);g.score+=points;uPU();sv();
+  if(rating==='perfect'){pfS();$('pMsg').textContent=t('pf');$('pMsg').className='play-message-text perfect'}
+  else{gdS();$('pMsg').textContent=t('gd');$('pMsg').className='play-message-text good'}
+  if(tapRes.length%4===0)laugh('small');
+  awaitingTap=false;
+  if(curBeat>=pattern.length-1){setTimeout(function(){endRound(true)},300)}
+}
 
-function endRound(won,reason){phase='idle';clrT();if(won){g.pc++;g.streak++;sv();uPU();var allP=tapRes.every(function(r){return r==='perfect'});var intensity=allP?'party':g.streak>=5?'big':'medium';laugh(intensity);if(allP){$('pMsg').textContent=t('ap');coach(t('cm'))}else{$('pMsg').textContent=t('li');coach(g.streak>=3?t('cf'):t('cn'))}$('pMsg').className='play-message-text perfect';setTimeout(function(){if(g.pc>=2){if(g.level<10){lvUp()}else{coach(t('ml'));g.pc=0;uPU();finRound()}}else{finRound()}},1200)}else{g.pc=0;g.streak=0;sv();uPU();$('pMsg').innerHTML='<span style="color:var(--pink)">'+(reason||t('ob'))+'</span>';$('pMsg').className='play-message-text miss';coach(t('ta'));setTimeout(finRound,1500)}}
+function endRound(won,reason){
+  phase='idle';clrT();
+  if(won){
+    g.pc++;g.streak++;sv();uPU();
+    var allP=tapRes.every(function(r){return r==='perfect'});
+    var intensity=allP?'party':g.streak>=5?'big':'medium';
+    laugh(intensity);
+    if(allP){$('pMsg').textContent=t('ap');coach(t('cm'))}
+    else{$('pMsg').textContent=t('li');coach(g.streak>=3?t('cf'):t('cn'))}
+    $('pMsg').className='play-message-text perfect';
+    setTimeout(function(){
+      if(g.pc>=2){if(g.level<10){lvUp()}else{coach(t('ml'));g.pc=0;uPU();finRound()}}
+      else{finRound()}
+    },1200);
+  }else{
+    g.pc=0;g.streak=0;sv();uPU();
+    $('pMsg').innerHTML='<span style="color:var(--pink)">'+(reason||t('ob'))+'</span>';
+    $('pMsg').className='play-message-text miss';
+    coach(t('ta'));setTimeout(finRound,1500);
+  }
+}
 
-function lvUp(){g.level++;g.pc=0;sv();$$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===g.level)});uPU();laugh('party');$('luMsg').innerHTML=t('lm').replace('{level}',g.level).replace('{cells}',gcc(g.level));$('luOvl').classList.add('show');uPU()}
+function lvUp(){
+  g.level++;g.pc=0;sv();
+  $$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===g.level)});
+  uPU();laugh('party');
+  $('luMsg').innerHTML=t('lm').replace('{level}',g.level).replace('{cells}',gcc(g.level));
+  $('luOvl').classList.add('show');uPU();
+}
 $('luBtn').onclick=function(){$('luOvl').classList.remove('show');finRound()};
 
-function finRound(){phase='idle';currentTarget=-1;g.lives=ML;clrC();uPU();$('pMsg').textContent=t('tlg');$('pMsg').className='play-message-text';$('pAct').disabled=false}
+function finRound(){
+  phase='idle';currentTarget=-1;g.lives=ML;clrC();uPU();
+  $('pMsg').textContent=t('tlg');$('pMsg').className='play-message-text';
+  $('pAct').disabled=false;
+}
 $('pAct').onclick=startRound;
 
+/* =====================================================
+   INIT
+   ===================================================== */
 initDC();uUI();startDemo();uTr();
 })();
 </script>
