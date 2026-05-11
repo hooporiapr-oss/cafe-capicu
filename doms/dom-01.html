@@ -64,8 +64,8 @@ body{
 /* ── SCREENS ── */
 .screen{
   display:none;width:100%;
-  min-height:100dvh;
   padding-top:calc(var(--nav-height) + env(safe-area-inset-top));
+  overflow:hidden;
 }
 .screen.active{display:block}
 
@@ -76,8 +76,10 @@ body{
 
 .demo-container{
   max-width:420px;margin:0 auto;
-  padding:10px 16px 80px;
-  display:flex;flex-direction:column;align-items:center;
+  padding:10px 16px max(env(safe-area-inset-bottom),24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
+  overflow:hidden;
 }
 
 .demo-header{text-align:center;margin-bottom:10px}
@@ -295,9 +297,10 @@ body{
   display:flex;flex-direction:column;align-items:center;
   max-width:420px;margin:0 auto;
   /* fill screen height minus nav */
-  min-height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top) - max(env(safe-area-inset-bottom),16px));
-  padding:8px 12px 80px;
-  gap:6px;
+  height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top));
+  padding:8px 12px max(env(safe-area-inset-bottom),24px);
+  justify-content:space-between;
+  overflow:hidden;
 }
 
 .play-stats{
@@ -548,11 +551,7 @@ body{
 <div class="demo-cta">
 <button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
 </div>
-<div class="ritnome-promo">
-<div class="pulse-dot"></div>
-<div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>Cognitivo Digital™</span></div>
-</div>
-<div style="height:80px;flex-shrink:0"></div>
+
 </div>
 </div>
 
@@ -715,7 +714,7 @@ function updateUILanguage(){
   $('progressionTitle').textContent=t('progressionTitle');$('prog1').innerHTML=t('prog1');$('prog2').innerHTML=t('prog2');$('prog3').innerHTML=t('prog3');
   $('speedsTitle').textContent=t('speedsTitle');$('speed1').innerHTML=t('speed1');$('speed2').innerHTML=t('speed2');$('speed3').innerHTML=t('speed3');
   $('tipTitle').textContent=t('tipTitle');$('tipText').textContent=t('tipText');
-  $('playNowBtn').textContent=t('playNow');$('poweredBy').textContent=t('poweredBy');
+  $('playNowBtn').textContent=t('playNow');
   $('trophyTitle').textContent=t('trophyTitle');$('trophySubtitle').textContent=t('trophySubtitle');
   $('selectSpeedTitle').textContent=t('selectSpeed');
   $('tierSlowStatus').textContent=t('tierFree');$('tierMedStatus').textContent=t('tierFree');$('tierFastStatus').textContent=t('tierFree');
