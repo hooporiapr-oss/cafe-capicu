@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Pattern Recognition | BPM Basketball</title>
+<title>Pattern Recognition | Café Capicú</title>
 <link rel="icon" type="image/png" href="bpm-basketball.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -80,8 +80,8 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .htp-tip-title{font-size:0.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .htp-tip-text{font-size:0.7rem;color:var(--muted);line-height:1.4}
 
-.demo-cta{width:100%;max-width:320px;margin-top:8px}
-.play-now-btn{width:100%;padding:14px 20px;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--orange),#E55A2B);color:var(--text);box-shadow:0 4px 20px rgba(255,107,53,0.4);transition:all 0.3s;animation:demoPulse 2s ease-in-out infinite}
+.demo-cta{width:100%;margin-top:8px;display:flex;justify-content:center}
+.play-now-btn{width:auto;min-width:200px;padding:14px 32px;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--orange),#E55A2B);color:var(--text);box-shadow:0 4px 20px rgba(255,107,53,0.4);transition:all 0.3s;animation:demoPulse 2s ease-in-out infinite}
 .play-now-btn:active{transform:scale(0.98)}
 @keyframes demoPulse{0%,100%{box-shadow:0 4px 20px rgba(255,107,53,0.4)}50%{box-shadow:0 4px 30px rgba(255,107,53,0.7)}}
 
@@ -207,8 +207,8 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 
 <nav class="mini-nav">
 <div class="nav-row">
-<a href="../index.html" class="back-btn" id="backBtn">← Back</a>
-<div class="nav-title">Subliminal</div>
+<a href="https://cafecapicu.com" class="back-btn" id="backBtn">← Back</a>
+<div class="nav-title">Café Capicú</div>
 <div class="nav-right">
 <div class="nav-lang">
 <button class="nav-lang-btn" id="langEN">EN</button>
@@ -221,7 +221,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="screen active" id="screen-demo">
 <div class="demo-container">
 <div class="demo-header">
-<div class="demo-badge" id="demoBadge">Basketball Money</div>
 <h1 class="demo-title">Pattern Recognition</h1>
 <p class="demo-subtitle" id="demoSubtitle">The Possession-Long Brake Memory</p>
 </div>
@@ -229,15 +228,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="demo-court-wrap">
 <div class="demo-label-inline" id="demoLabel">👀 WATCH...</div>
 <div class="demo-court" id="demoCourt"></div>
-</div>
-
-<div class="demo-cta">
-<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
-</div>
-
-<div class="ritnome-promo">
-<div class="pulse-dot"></div>
-<div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>BPM BASKETBALL™</span></div>
 </div>
 
 <div class="htp-section">
@@ -273,6 +263,11 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 </div>
 </div>
 </div>
+
+<div class="demo-cta">
+<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
+</div>
+
 </div>
 </div>
 
@@ -595,7 +590,6 @@ function t(key) {
 }
 
 function updateUILanguage() {
-  $('demoBadge').textContent = t('demoBadge');
   $('demoSubtitle').textContent = t('demoSubtitle');
   $('htpToggleText').textContent = t('htpToggle');
   $('objectiveTitle').textContent = t('objectiveTitle');
@@ -613,7 +607,6 @@ function updateUILanguage() {
   $('tipTitle').textContent = t('tipTitle');
   $('tipText').textContent = t('tipText');
   $('playNowBtn').textContent = t('playNow');
-  $('poweredBy').textContent = t('poweredBy');
   $('trophyTitle').textContent = t('trophyTitle');
   $('trophySubtitle').textContent = t('trophySubtitle');
   $('selectSpeedTitle').textContent = t('selectSpeed');
