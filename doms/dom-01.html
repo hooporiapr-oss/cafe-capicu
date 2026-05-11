@@ -502,7 +502,6 @@ body{
 <div class="screen active" id="screen-demo">
 <div class="demo-container">
 <div class="demo-header">
-<div class="demo-badge" id="demoBadge">Dominoes Cognitico</div>
 <h1 class="demo-title">Pattern Recognition</h1>
 <p class="demo-subtitle" id="demoSubtitle">The Possession-Long Brake Memory</p>
 </div>
@@ -549,10 +548,11 @@ body{
 <div class="demo-cta">
 <button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
 </div>
-<div class="ritnome-promo" style="margin-bottom:60px">
+<div class="ritnome-promo">
 <div class="pulse-dot"></div>
 <div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>Cognitivo Digital™</span></div>
 </div>
+<div style="height:80px;flex-shrink:0"></div>
 </div>
 </div>
 
@@ -666,7 +666,8 @@ body{
 <div class="play-info-score" id="playTotal">0</div>
 </div>
 
-<button class="play-action-btn" id="playActionBtn" style="margin-bottom:60px">LET'S GO</button>
+<button class="play-action-btn" id="playActionBtn">LET'S GO</button>
+<div style="height:80px;flex-shrink:0"></div>
 </div>
 </div>
 
@@ -708,7 +709,7 @@ var translations={
 };
 function t(k){return translations[currentLang][k]||translations['en'][k]||k}
 function updateUILanguage(){
-  $('demoBadge').textContent=t('demoBadge');$('demoSubtitle').textContent=t('demoSubtitle');
+  $('demoSubtitle').textContent=t('demoSubtitle');
   $('htpToggleText').textContent=t('htpToggle');$('objectiveTitle').textContent=t('objectiveTitle');
   $('step1').innerHTML=t('step1');$('step2').innerHTML=t('step2');$('step3').innerHTML=t('step3');
   $('progressionTitle').textContent=t('progressionTitle');$('prog1').innerHTML=t('prog1');$('prog2').innerHTML=t('prog2');$('prog3').innerHTML=t('prog3');
