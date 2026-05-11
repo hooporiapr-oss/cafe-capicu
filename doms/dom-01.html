@@ -26,17 +26,17 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .screen.active{display:block}
 
 #screen-demo{background:var(--dark);min-height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top))}
-.demo-container{max-width:420px;margin:0 auto;padding:10px 15px 20px;display:flex;flex-direction:column;align-items:center}
-.demo-header{text-align:center;margin-bottom:8px}
-.demo-badge{display:inline-block;background:rgba(255,107,53,0.15);color:var(--orange);padding:4px 12px;border-radius:15px;font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
-.demo-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--orange);margin-bottom:2px}
-.demo-subtitle{font-size:0.7rem;color:var(--muted)}
+.demo-container{max-width:420px;margin:0 auto;padding:6px 15px 16px;display:flex;flex-direction:column;align-items:center}
+.demo-header{text-align:center;margin-bottom:4px}
+.demo-badge{display:inline-block;background:rgba(255,107,53,0.15);color:var(--orange);padding:3px 10px;border-radius:15px;font-size:0.5rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px}
+.demo-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--orange);margin-bottom:1px}
+.demo-subtitle{font-size:0.65rem;color:var(--muted)}
 
-.demo-court-wrap{position:relative;margin:10px 0}
-.demo-label{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:2px;color:var(--gold);background:rgba(0,0,0,0.85);padding:4px 12px;border-radius:10px;white-space:nowrap;z-index:10;border:1px solid rgba(255,215,0,0.3);transition:all 0.3s}
-.demo-label.phase-watch{color:var(--gold);border-color:rgba(255,215,0,0.4)}
-.demo-label.phase-recall{color:var(--orange);border-color:rgba(255,107,53,0.4)}
-.demo-label.phase-success{color:var(--teal);border-color:rgba(0,217,165,0.4)}
+.demo-court-wrap{position:relative;margin:4px 0}
+.demo-label-inline{display:block;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:2px;color:var(--gold);background:rgba(0,0,0,0.85);padding:3px 12px;border-radius:10px;white-space:nowrap;border:1px solid rgba(255,215,0,0.3);transition:all 0.3s;margin-bottom:6px;text-align:center;width:100%}
+.demo-label-inline.phase-watch{color:var(--gold);border-color:rgba(255,215,0,0.4)}
+.demo-label-inline.phase-recall{color:var(--orange);border-color:rgba(255,107,53,0.4)}
+.demo-label-inline.phase-success{color:var(--teal);border-color:rgba(0,217,165,0.4)}
 
 .demo-court{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:6px;background:#1a1a24;border-radius:12px;border:none;width:200px;height:200px;position:relative}
 .demo-court::before{content:'';position:absolute;inset:0;background:rgba(10,10,15,0.5);border-radius:9px;pointer-events:none}
@@ -56,7 +56,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .demo-cell.lit .domino-line,.play-cell.lit .domino-line{stroke:rgba(255,255,255,0.7)}
 .demo-cell.correct .domino-line,.play-cell.correct .domino-line{stroke:rgba(255,255,255,0.7)}
 
-.htp-section{width:100%;max-width:380px;margin:12px 0}
+.htp-section{width:100%;max-width:380px;margin:10px 0 0}
 .htp-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(255,107,53,0.05));border:1px solid rgba(255,215,0,0.2);border-radius:10px;cursor:pointer;transition:all 0.3s}
 .htp-toggle:active{transform:scale(0.98);border-color:var(--gold)}
 .htp-toggle-icon{font-size:1.1rem}
@@ -80,12 +80,12 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .htp-tip-title{font-size:0.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .htp-tip-text{font-size:0.7rem;color:var(--muted);line-height:1.4}
 
-.demo-cta{width:100%;max-width:320px;margin-top:12px}
+.demo-cta{width:100%;max-width:320px;margin-top:8px}
 .play-now-btn{width:100%;padding:14px 20px;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--orange),#E55A2B);color:var(--text);box-shadow:0 4px 20px rgba(255,107,53,0.4);transition:all 0.3s;animation:demoPulse 2s ease-in-out infinite}
 .play-now-btn:active{transform:scale(0.98)}
 @keyframes demoPulse{0%,100%{box-shadow:0 4px 20px rgba(255,107,53,0.4)}50%{box-shadow:0 4px 30px rgba(255,107,53,0.7)}}
 
-.ritnome-promo{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:15px;padding:8px 14px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:20px}
+.ritnome-promo{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;padding:6px 14px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:20px}
 .ritnome-promo .pulse-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulseDot 1s ease-in-out infinite}
 @keyframes pulseDot{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
 .ritnome-promo-text{font-size:0.55rem;color:var(--muted);letter-spacing:1px}
@@ -208,7 +208,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <nav class="mini-nav">
 <div class="nav-row">
 <a href="../index.html" class="back-btn" id="backBtn">← Back</a>
-<div class="nav-title">Cafe Pa'Lante</div>
+<div class="nav-title">Subliminal</div>
 <div class="nav-right">
 <div class="nav-lang">
 <button class="nav-lang-btn" id="langEN">EN</button>
@@ -221,14 +221,23 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="screen active" id="screen-demo">
 <div class="demo-container">
 <div class="demo-header">
-<div class="demo-badge" id="demoBadge">Dominoes Cognitico</div>
+<div class="demo-badge" id="demoBadge">Basketball Money</div>
 <h1 class="demo-title">Pattern Recognition</h1>
 <p class="demo-subtitle" id="demoSubtitle">The Possession-Long Brake Memory</p>
 </div>
 
 <div class="demo-court-wrap">
-<div class="demo-label" id="demoLabel">👀 WATCH...</div>
+<div class="demo-label-inline" id="demoLabel">👀 WATCH...</div>
 <div class="demo-court" id="demoCourt"></div>
+</div>
+
+<div class="demo-cta">
+<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
+</div>
+
+<div class="ritnome-promo">
+<div class="pulse-dot"></div>
+<div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>BPM BASKETBALL™</span></div>
 </div>
 
 <div class="htp-section">
@@ -245,14 +254,12 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="htp-step"><div class="htp-step-num">2</div><div class="htp-step-text" id="step2"><strong>Memorize</strong> which cells have which domino values</div></div>
 <div class="htp-step"><div class="htp-step-num">3</div><div class="htp-step-text" id="step3"><strong>Tap back</strong> in order: 1 dot, 2 dots, 3 dots...</div></div>
 </div>
-
 <div class="htp-card">
 <div class="htp-card-title">⭐ <span id="progressionTitle">PROGRESSION</span></div>
 <div class="htp-step"><div class="htp-step-num">→</div><div class="htp-step-text" id="prog1">Complete <strong>3 rounds</strong> to earn a GoStar</div></div>
 <div class="htp-step"><div class="htp-step-num">→</div><div class="htp-step-text" id="prog2">Earn <strong>10 GoStars</strong> to master a level</div></div>
 <div class="htp-step"><div class="htp-step-num">→</div><div class="htp-step-text" id="prog3">Higher levels = <strong>more cells</strong> to remember</div></div>
 </div>
-
 <div class="htp-card">
 <div class="htp-card-title">⚡ <span id="speedsTitle">BPM SPEEDS</span></div>
 <div class="htp-step"><div class="htp-step-num">🏋️</div><div class="htp-step-text" id="speed1"><strong>Training (60 BPM)</strong> — Slower flash, more time</div></div>
@@ -265,15 +272,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 </div>
 </div>
 </div>
-</div>
-
-<div class="demo-cta">
-<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
-</div>
-
-<div class="ritnome-promo">
-<div class="pulse-dot"></div>
-<div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>BPM BASKETBALL™</span></div>
 </div>
 </div>
 </div>
@@ -505,7 +503,7 @@ var currentLang='en';
 
 var translations = {
   en: {
-    demoBadge: 'Dominoes Cognitivo',
+    demoBadge: 'Basketball Money',
     demoSubtitle: 'The Possession-Long Brake Memory',
     demoLabelWatch: '👀 WATCH...',
     demoLabelRecall: 'RECALL!',
@@ -548,7 +546,7 @@ var translations = {
     masterMsg: '🏆 10 GOSTARS - MASTER! 🏆'
   },
   es: {
-    demoBadge: 'Dominoes Cognitivo',
+    demoBadge: 'Basketball Money',
     demoSubtitle: 'La Memoria de Freno de Toda la Posesión',
     demoLabelWatch: '👀 MIRA...',
     demoLabelRecall: '¡RECUERDA!',
@@ -704,7 +702,7 @@ function runDemoRound(epoch){
     setDemoTimeout(function(){
         if(epoch!==demoEpoch)return;
         demoLabel.textContent=t('demoLabelWatch');
-        demoLabel.className='demo-label phase-watch';
+        demoLabel.className='demo-label-inline phase-watch';
         pattern.forEach(function(idx,num){
             demoCells[idx].classList.add('lit');
             setDemoCellDomino(demoCells[idx], num+1);
@@ -718,7 +716,7 @@ function runDemoRound(epoch){
             if(wrap) wrap.innerHTML='';
         });
         demoLabel.textContent=t('demoLabelTap');
-        demoLabel.className='demo-label phase-recall';
+        demoLabel.className='demo-label-inline phase-recall';
     },2800);
     pattern.forEach(function(idx,i){
         setDemoTimeout(function(){
@@ -730,7 +728,7 @@ function runDemoRound(epoch){
     setDemoTimeout(function(){
         if(epoch!==demoEpoch)return;
         demoLabel.textContent=t('demoLabelPerfect');
-        demoLabel.className='demo-label phase-success';
+        demoLabel.className='demo-label-inline phase-success';
         demoCourt.classList.add('joy-pulse');
         setTimeout(function(){demoCourt.classList.remove('joy-pulse')},500);
     },3300+(5*400)+200);
@@ -738,7 +736,7 @@ function runDemoRound(epoch){
         if(epoch!==demoEpoch)return;
         clearDemoCells();
         demoLabel.textContent=t('demoLabelWatch');
-        demoLabel.className='demo-label';
+        demoLabel.className='demo-label-inline';
         runDemoRound(epoch);
     },6500);
 }
