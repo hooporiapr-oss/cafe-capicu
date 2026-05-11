@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Multi-Target Vision | BPM Basketball</title>
+<title>Multi-Target Vision | Café Capicú</title>
 <link rel="icon" type="image/png" href="bpm-basketball.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -84,8 +84,8 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .playbook-tip-title{font-size:0.55rem;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
 .playbook-tip-text{font-size:0.65rem;color:var(--muted);line-height:1.4}
 
-.demo-cta{width:100%;max-width:320px;margin-top:8px}
-.play-now-btn{width:100%;padding:14px 20px;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--teal),#00B894);color:var(--dark);box-shadow:0 4px 20px rgba(0,217,165,0.4);transition:all 0.3s;animation:demoPulse 2s ease-in-out infinite}
+.demo-cta{width:100%;margin-top:8px;display:flex;justify-content:center}
+.play-now-btn{width:auto;min-width:200px;padding:14px 32px;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--teal),#00B894);color:var(--dark);box-shadow:0 4px 20px rgba(0,217,165,0.4);transition:all 0.3s;animation:demoPulse 2s ease-in-out infinite}
 .play-now-btn:active{transform:scale(0.98)}
 @keyframes demoPulse{0%,100%{box-shadow:0 4px 20px rgba(0,217,165,0.4)}50%{box-shadow:0 4px 30px rgba(0,217,165,0.7)}}
 .ritnome-promo{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;padding:6px 14px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:20px}
@@ -184,8 +184,8 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <body>
 <nav class="mini-nav">
 <div class="nav-row">
-<a href="../index.html" class="back-btn" id="backBtn">← Back</a>
-<div class="nav-title">Subliminal</div>
+<a href="https://cafecapicu.com" class="back-btn" id="backBtn">← Back</a>
+<div class="nav-title">Café Capicú</div>
 <div class="nav-right">
 <div class="nav-lang">
 <button class="nav-lang-btn" id="langEN">EN</button>
@@ -198,7 +198,6 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="screen active" id="screen-demo">
 <div class="demo-container">
 <div class="demo-header">
-<div class="demo-badge" id="demoBadge">Basketball Money</div>
 <h1 class="demo-title">Multi-Target Vision</h1>
 <p class="demo-subtitle" id="demoSubtitle">Sequential Brake Execution</p>
 </div>
@@ -206,17 +205,10 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <div class="demo-label-inline" id="demoLabel">👀 WATCH...</div>
 <div class="demo-court" id="demoCourt"></div>
 </div>
-<div class="demo-cta">
-<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
-</div>
-<div class="ritnome-promo">
-<div class="pulse-dot"></div>
-<div class="ritnome-promo-text"><span id="poweredBy">Powered by</span> <span>BPM BASKETBALL™</span></div>
-</div>
 <div class="playbook-section">
 <div class="playbook-toggle" id="playbookToggle">
 <span class="playbook-toggle-icon">📖</span>
-<span class="playbook-toggle-text" id="playbookToggleText">THE PLAYBOOK</span>
+<span class="playbook-toggle-text" id="playbookToggleText">HOW TO PLAY</span>
 <span class="playbook-toggle-arrow">▼</span>
 </div>
 <div class="playbook-content" id="playbookContent">
@@ -246,6 +238,12 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 </div>
 </div>
 </div>
+</div>
+
+<div class="demo-cta">
+<button class="play-now-btn" id="playNowBtn">▶ PLAY NOW</button>
+</div>
+
 </div>
 </div>
 
@@ -375,19 +373,19 @@ function clearDomino(cellEl){
    TRANSLATIONS
    ===================================================== */
 var translations={
-  en:{demoBadge:'Basketball Money',demoSubtitle:'Sequential Brake Execution',demoLabelWatch:'👀 WATCH...',demoLabelSeq:'WATCH THE SEQUENCE...',demoLabelReplay:'REPLAY IT!',demoLabelPerfect:'✅ PERFECT!',playbookToggle:'THE PLAYBOOK',objectiveTitle:'OBJECTIVE',step1:'<strong>Watch</strong> domino cells light up one by one',step2:'<strong>Remember</strong> the sequence order',step3:'<strong>Replay</strong> by tapping in the same order',progressionTitle:'PROGRESSION',prog1:'Complete <strong>3 rounds</strong> to earn a GoStar',prog2:'Earn <strong>10 GoStars</strong> to master a level',prog3:'Higher levels = <strong>longer sequences</strong>',speedsTitle:'BPM SPEEDS',speed1:'<strong>Training (60 BPM)</strong> — Slower flashes',speed2:'<strong>Tempo (90 BPM)</strong> — Medium speed',speed3:'<strong>Elite (120 BPM)</strong> — Fast flashes!',tipTitle:'TIP',tipText:'Focus on the rhythm of the flashes — your muscle memory will kick in!',playNow:'▶ PLAY NOW',poweredBy:'Powered by',trophyTitle:'YOUR TROPHY ROOM',trophySubtitle:'Multi-Target Vision Progress',selectSpeed:'SELECT BPM SPEED',tierFree:'✓ FREE',selectLevel:'SELECT LEVEL',seqLabel:'Sequence length:',letsGo:"LET'S GO!",roundLabel:'Round',scoreLabel:'Score',tapToStart:'TAP TO START!',tapLetsGo:"TAP LET'S GO!",watch:'WATCH...',yourTurn:'YOUR TURN!',wrong:'WRONG!',tierupTitle:'GOSTAR EARNED!',tierupMsg:'You earned GoStar {tier}!',tierupLvl:' Now Level {level} ({seq} steps)',masterMsg:'🏆 10 GOSTARS - MASTER! 🏆'},
-  es:{demoBadge:'Basketball Money',demoSubtitle:'Ejecución Secuencial del Freno',demoLabelWatch:'👀 MIRA...',demoLabelSeq:'MIRA LA SECUENCIA...',demoLabelReplay:'¡REPÍTELO!',demoLabelPerfect:'✅ ¡PERFECTO!',playbookToggle:'EL MANUAL',objectiveTitle:'OBJETIVO',step1:'<strong>Observa</strong> las celdas de dominó iluminarse una por una',step2:'<strong>Recuerda</strong> el orden de la secuencia',step3:'<strong>Repite</strong> tocando en el mismo orden',progressionTitle:'PROGRESIÓN',prog1:'Completa <strong>3 rondas</strong> para ganar un GoStar',prog2:'Gana <strong>10 GoStars</strong> para dominar un nivel',prog3:'Niveles más altos = <strong>secuencias más largas</strong>',speedsTitle:'VELOCIDADES BPM',speed1:'<strong>Entrenamiento (60 BPM)</strong> — Destellos lentos',speed2:'<strong>Tempo (90 BPM)</strong> — Velocidad media',speed3:'<strong>Elite (120 BPM)</strong> — ¡Destellos rápidos!',tipTitle:'CONSEJO',tipText:'Concéntrate en el ritmo de los destellos — ¡tu memoria muscular te ayudará!',playNow:'▶ JUGAR AHORA',poweredBy:'Impulsado por',trophyTitle:'TU VITRINA',trophySubtitle:'Progreso de Multi-Target Vision',selectSpeed:'SELECCIONA VELOCIDAD BPM',tierFree:'✓ GRATIS',selectLevel:'SELECCIONA NIVEL',seqLabel:'Longitud:',letsGo:"¡PA'LANTE!",roundLabel:'Ronda',scoreLabel:'Puntos',tapToStart:'¡TOCA PARA COMENZAR!',tapLetsGo:"¡TOCA PA'LANTE!",watch:'MIRA...',yourTurn:'¡TU TURNO!',wrong:'¡ERROR!',tierupTitle:'¡GOSTAR GANADO!',tierupMsg:'¡Ganaste GoStar {tier}!',tierupLvl:' Ahora Nivel {level} ({seq} pasos)',masterMsg:'🏆 10 GOSTARS - ¡MAESTRO! 🏆'}
+  en:{demoBadge:'Basketball Money',demoSubtitle:'Sequential Brake Execution',demoLabelWatch:'👀 WATCH...',demoLabelSeq:'WATCH THE SEQUENCE...',demoLabelReplay:'REPLAY IT!',demoLabelPerfect:'✅ PERFECT!',playbookToggle:'HOW TO PLAY',objectiveTitle:'OBJECTIVE',step1:'<strong>Watch</strong> domino cells light up one by one',step2:'<strong>Remember</strong> the sequence order',step3:'<strong>Replay</strong> by tapping in the same order',progressionTitle:'PROGRESSION',prog1:'Complete <strong>3 rounds</strong> to earn a GoStar',prog2:'Earn <strong>10 GoStars</strong> to master a level',prog3:'Higher levels = <strong>longer sequences</strong>',speedsTitle:'BPM SPEEDS',speed1:'<strong>Training (60 BPM)</strong> — Slower flashes',speed2:'<strong>Tempo (90 BPM)</strong> — Medium speed',speed3:'<strong>Elite (120 BPM)</strong> — Fast flashes!',tipTitle:'TIP',tipText:'Focus on the rhythm of the flashes — your muscle memory will kick in!',playNow:'▶ PLAY NOW',poweredBy:'Powered by',trophyTitle:'YOUR TROPHY ROOM',trophySubtitle:'Multi-Target Vision Progress',selectSpeed:'SELECT BPM SPEED',tierFree:'✓ FREE',selectLevel:'SELECT LEVEL',seqLabel:'Sequence length:',letsGo:"LET'S GO!",roundLabel:'Round',scoreLabel:'Score',tapToStart:'TAP TO START!',tapLetsGo:"TAP LET'S GO!",watch:'WATCH...',yourTurn:'YOUR TURN!',wrong:'WRONG!',tierupTitle:'GOSTAR EARNED!',tierupMsg:'You earned GoStar {tier}!',tierupLvl:' Now Level {level} ({seq} steps)',masterMsg:'🏆 10 GOSTARS - MASTER! 🏆'},
+  es:{demoBadge:'Basketball Money',demoSubtitle:'Ejecución Secuencial del Freno',demoLabelWatch:'👀 MIRA...',demoLabelSeq:'MIRA LA SECUENCIA...',demoLabelReplay:'¡REPÍTELO!',demoLabelPerfect:'✅ ¡PERFECTO!',playbookToggle:'CÓMO JUGAR',objectiveTitle:'OBJETIVO',step1:'<strong>Observa</strong> las celdas de dominó iluminarse una por una',step2:'<strong>Recuerda</strong> el orden de la secuencia',step3:'<strong>Repite</strong> tocando en el mismo orden',progressionTitle:'PROGRESIÓN',prog1:'Completa <strong>3 rondas</strong> para ganar un GoStar',prog2:'Gana <strong>10 GoStars</strong> para dominar un nivel',prog3:'Niveles más altos = <strong>secuencias más largas</strong>',speedsTitle:'VELOCIDADES BPM',speed1:'<strong>Entrenamiento (60 BPM)</strong> — Destellos lentos',speed2:'<strong>Tempo (90 BPM)</strong> — Velocidad media',speed3:'<strong>Elite (120 BPM)</strong> — ¡Destellos rápidos!',tipTitle:'CONSEJO',tipText:'Concéntrate en el ritmo de los destellos — ¡tu memoria muscular te ayudará!',playNow:'▶ JUGAR AHORA',poweredBy:'Impulsado por',trophyTitle:'TU VITRINA',trophySubtitle:'Progreso de Multi-Target Vision',selectSpeed:'SELECCIONA VELOCIDAD BPM',tierFree:'✓ GRATIS',selectLevel:'SELECCIONA NIVEL',seqLabel:'Longitud:',letsGo:"¡PA'LANTE!",roundLabel:'Ronda',scoreLabel:'Puntos',tapToStart:'¡TOCA PARA COMENZAR!',tapLetsGo:"¡TOCA PA'LANTE!",watch:'MIRA...',yourTurn:'¡TU TURNO!',wrong:'¡ERROR!',tierupTitle:'¡GOSTAR GANADO!',tierupMsg:'¡Ganaste GoStar {tier}!',tierupLvl:' Ahora Nivel {level} ({seq} pasos)',masterMsg:'🏆 10 GOSTARS - ¡MAESTRO! 🏆'}
 };
 function t(key){return translations[currentLang][key]||translations['en'][key]||key}
 
 function updateUILanguage(){
-  $('demoBadge').textContent=t('demoBadge');$('demoSubtitle').textContent=t('demoSubtitle');
+  $('demoSubtitle').textContent=t('demoSubtitle');
   $('playbookToggleText').textContent=t('playbookToggle');$('objectiveTitle').textContent=t('objectiveTitle');
   $('step1').innerHTML=t('step1');$('step2').innerHTML=t('step2');$('step3').innerHTML=t('step3');
   $('progressionTitle').textContent=t('progressionTitle');$('prog1').innerHTML=t('prog1');$('prog2').innerHTML=t('prog2');$('prog3').innerHTML=t('prog3');
   $('speedsTitle').textContent=t('speedsTitle');$('speed1').innerHTML=t('speed1');$('speed2').innerHTML=t('speed2');$('speed3').innerHTML=t('speed3');
   $('tipTitle').textContent=t('tipTitle');$('tipText').textContent=t('tipText');
-  $('playNowBtn').textContent=t('playNow');$('poweredBy').textContent=t('poweredBy');
+  $('playNowBtn').textContent=t('playNow');
   $('trophyTitle').textContent=t('trophyTitle');$('trophySubtitle').textContent=t('trophySubtitle');
   $('selectSpeedTitle').textContent=t('selectSpeed');
   $('tierSlowStatus').textContent=t('tierFree');$('tierMedStatus').textContent=t('tierFree');$('tierFastStatus').textContent=t('tierFree');
