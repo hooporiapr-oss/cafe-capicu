@@ -3,263 +3,596 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>COGNITIVO | Cognitive Performance Training</title>
+  <title>COGNITIVO PERFORMANCE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    body{
-      background:#050505;
-      color:white;
-      overflow-x:hidden;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050816;
+      color: white;
+      overflow-x: hidden;
     }
 
-    .hero{
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:40px 20px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(5, 8, 22, 0.88);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #d6a447;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      gap: 34px;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.82);
+      transition: 0.2s ease;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .btn {
+      background: #d6a447;
+      color: #050816;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      display: inline-block;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
       background:
-        radial-gradient(circle at top left, rgba(57,255,20,.25), transparent 25%),
-        radial-gradient(circle at bottom right, rgba(57,255,20,.15), transparent 30%),
-        #050505;
+        radial-gradient(circle at top right, rgba(214,164,71,0.25), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(58,98,255,0.18), transparent 30%),
+        #050816;
+      position: relative;
+      overflow: hidden;
     }
 
-    .grid-logo{
-      width:220px;
-      height:220px;
-      display:grid;
-      grid-template-columns:repeat(5, 1fr);
-      grid-template-rows:repeat(5, 1fr);
-      gap:6px;
-      margin-bottom:40px;
-      position:relative;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 80px 0;
     }
 
-    .grid-logo div{
-      border:1px solid rgba(255,255,255,.25);
-      background:#111;
-      border-radius:4px;
+    .hero-copy h2 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.92;
+      font-weight: 900;
+      margin-bottom: 24px;
     }
 
-    .grid-logo div.active{
-      background:#39ff14;
-      box-shadow:0 0 15px #39ff14;
+    .hero-copy h2 span {
+      color: #d6a447;
     }
 
-    .c-overlay{
-      position:absolute;
-      width:100%;
-      height:100%;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:180px;
-      font-weight:900;
-      color:rgba(57,255,20,.75);
-      text-shadow:0 0 20px rgba(57,255,20,.8);
-      pointer-events:none;
+    .hero-copy p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 36px;
     }
 
-    h1{
-      font-size:72px;
-      letter-spacing:6px;
-      color:#39ff14;
-      margin-bottom:10px;
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
     }
 
-    .subtitle{
-      font-size:20px;
-      color:#ccc;
-      margin-bottom:50px;
-      max-width:900px;
-      line-height:1.6;
+    .secondary-btn {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      color: white;
     }
 
-    .features{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-      gap:25px;
-      width:100%;
-      max-width:1100px;
-      margin-bottom:50px;
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    .card{
-      background:#0f0f0f;
-      border:1px solid rgba(57,255,20,.25);
-      border-radius:18px;
-      padding:30px;
-      transition:.3s ease;
+    .stat-box {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 24px;
+      background: rgba(255,255,255,0.03);
     }
 
-    .card:hover{
-      transform:translateY(-6px);
-      border-color:#39ff14;
-      box-shadow:0 0 20px rgba(57,255,20,.2);
+    .stat-box h3 {
+      color: #d6a447;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .card h2{
-      color:#39ff14;
-      margin-bottom:15px;
-      font-size:24px;
+    .stat-box p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.6;
+      margin: 0;
     }
 
-    .card p{
-      color:#bbb;
-      line-height:1.6;
-      font-size:15px;
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      position: relative;
     }
 
-    .buttons{
-      display:flex;
-      flex-wrap:wrap;
-      gap:20px;
-      justify-content:center;
+    .brain-circle {
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(214,164,71,0.45), transparent 30%),
+        radial-gradient(circle at center, rgba(64,120,255,0.35), transparent 60%),
+        linear-gradient(135deg, #10182f, #050816);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(214,164,71,0.12);
     }
 
-    .btn{
-      padding:16px 32px;
-      border-radius:50px;
-      text-decoration:none;
-      font-weight:700;
-      transition:.3s ease;
+    .brain-circle::before {
+      content: "COGNITIVE\A PERFORMANCE";
+      white-space: pre;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      color: rgba(255,255,255,0.12);
     }
 
-    .primary{
-      background:#39ff14;
-      color:#000;
+    section {
+      padding: 100px 0;
     }
 
-    .primary:hover{
-      transform:scale(1.05);
-      box-shadow:0 0 20px rgba(57,255,20,.45);
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
     }
 
-    .secondary{
-      border:2px solid #39ff14;
-      color:#39ff14;
+    .section-title h2 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 14px;
     }
 
-    .secondary:hover{
-      background:#39ff14;
-      color:#000;
+    .section-title h2 span {
+      color: #d6a447;
     }
 
-    footer{
-      margin-top:60px;
-      color:#666;
-      font-size:14px;
+    .section-title p {
+      color: rgba(255,255,255,0.7);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.7;
     }
 
-    @media(max-width:768px){
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
 
-      h1{
-        font-size:46px;
+    .program-card {
+      border-radius: 24px;
+      padding: 36px 28px;
+      min-height: 280px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      transition: 0.25s ease;
+    }
+
+    .program-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(214,164,71,0.5);
+    }
+
+    .program-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+      font-weight: 800;
+    }
+
+    .program-card p {
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .program-card a {
+      color: #d6a447;
+      font-weight: 700;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .stack-card {
+      border-radius: 24px;
+      padding: 42px 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .stack-card .icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 1px solid rgba(214,164,71,0.4);
+      margin: 0 auto 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #d6a447;
+    }
+
+    .stack-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .stack-card h4 {
+      color: #d6a447;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    .stack-card p {
+      color: rgba(255,255,255,0.74);
+      line-height: 1.7;
+    }
+
+    .training {
+      background: linear-gradient(180deg, #0a1024, #050816);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .training-box {
+      border-radius: 30px;
+      padding: 70px;
+      background:
+        radial-gradient(circle at top right, rgba(214,164,71,0.18), transparent 35%),
+        linear-gradient(145deg, #10182f, #080c1b);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .training-box h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1;
+      margin-bottom: 24px;
+      font-weight: 900;
+    }
+
+    .training-box h2 span {
+      color: #d6a447;
+    }
+
+    .training-box p {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: rgba(255,255,255,0.74);
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    @media(max-width: 1100px) {
+      .hero-grid,
+      .program-grid,
+      .stack-grid {
+        grid-template-columns: 1fr;
       }
 
-      .subtitle{
-        font-size:18px;
+      .brain-circle {
+        width: 380px;
+        height: 380px;
       }
 
-      .c-overlay{
-        font-size:140px;
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width: 768px) {
+      nav {
+        display: none;
       }
 
-      .grid-logo{
-        width:180px;
-        height:180px;
+      .hero-copy h2 {
+        font-size: 3.5rem;
       }
 
+      .training-box {
+        padding: 40px 24px;
+      }
+
+      .stack-card,
+      .program-card {
+        padding: 30px 24px;
+      }
+
+      .brain-circle {
+        width: 300px;
+        height: 300px;
+      }
+
+      .brain-circle::before {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
-
 <body>
 
+  <header>
+    <div class="container navbar">
+      <div class="logo">
+        <h1>COGNITIVO</h1>
+        <span>PERFORMANCE</span>
+      </div>
+
+      <nav>
+        <a href="#programs">Programs</a>
+        <a href="#stack">Foundation Stack</a>
+        <a href="#training">Training</a>
+        <a href="#">About</a>
+      </nav>
+
+      <a href="#training" class="btn">GET STARTED FREE</a>
+    </div>
+  </header>
+
   <section class="hero">
+    <div class="container hero-grid">
 
-    <div class="grid-logo">
+      <div class="hero-copy">
+        <h2>
+          TRAIN YOUR MIND.<br>
+          <span>FUEL YOUR POTENTIAL.</span>
+        </h2>
 
-      <!-- 5 x 5 GRID -->
-      <div class="active"></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div>
-
-      <div class="c-overlay">C</div>
-    </div>
-
-    <h1>COGNITIVO</h1>
-
-    <p class="subtitle">
-      Elite Cognitive Performance Training designed to sharpen
-      reaction speed, pattern recognition, sequence recall,
-      multi-target vision, and rapid decision making.
-    </p>
-
-    <div class="features">
-
-      <div class="card">
-        <h2>Pattern Recognition</h2>
         <p>
-          Train your brain to identify visual patterns faster
-          and improve cognitive anticipation under pressure.
+          The complete cognitive performance system combining daily supplementation with free online cognitive training.
         </p>
+
+        <div class="hero-actions">
+          <a href="#training" class="btn">START FREE TRAINING</a>
+          <a href="#stack" class="secondary-btn">EXPLORE THE STACK</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-box">
+            <h3>Focus</h3>
+            <p>Stay locked in on what matters most.</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>Memory</h3>
+            <p>Train faster recall and stronger retention.</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>Performance</h3>
+            <p>Build daily mental consistency and endurance.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="card">
-        <h2>Sequence Recall</h2>
-        <p>
-          Enhance working memory and strengthen rapid recall
-          performance through dynamic neural exercises.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>Multi-Target Vision</h2>
-        <p>
-          Expand visual awareness and improve simultaneous
-          target tracking for elite-level focus.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>Decision Speed</h2>
-        <p>
-          Build faster processing speed and improve reaction
-          efficiency in high-pressure environments.
-        </p>
+      <div class="hero-visual">
+        <div class="brain-circle"></div>
       </div>
 
     </div>
-
-    <div class="buttons">
-
-      <a href="https://cognitivo.support" class="btn primary">
-        ENTER PROGRAM
-      </a>
-
-      <a href="https://cognitivo.support" class="btn secondary">
-        BACK TO MAIN SITE
-      </a>
-
-    </div>
-
-    <footer>
-      © 2026 COGNITIVO • Cognitive Performance Systems
-    </footer>
-
   </section>
+
+  <section id="programs">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>4 ONLINE COGNITIVE <span>PERFORMANCE PROGRAMS</span></h2>
+        <p>
+          Daily training systems designed to strengthen focus, memory, processing speed, and recovery.
+        </p>
+      </div>
+
+      <div class="program-grid">
+
+        <div class="program-card">
+          <h3>Pattern Recognition</h3>
+          <p>
+            Train your brain to identify patterns faster and improve decision-making under pressure.
+          </p>
+          <a href="#">Start Training →</a>
+        </div>
+
+        <div class="program-card">
+          <h3>Sequence Recall</h3>
+          <p>
+            Improve memory retention, order recall, and mental sequencing performance.
+          </p>
+          <a href="#">Start Training →</a>
+        </div>
+
+        <div class="program-card">
+          <h3>Focus Control</h3>
+          <p>
+            Build concentration, reduce distraction, and strengthen attention control.
+          </p>
+          <a href="#">Start Training →</a>
+        </div>
+
+        <div class="program-card">
+          <h3>Cognitive Recovery</h3>
+          <p>
+            Support mental recovery, reduce fatigue, and maintain daily performance consistency.
+          </p>
+          <a href="#">Start Training →</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>CORE <span>FOUNDATION STACK</span></h2>
+        <p>
+          Three foundational inputs designed to support calm, power, and cognitive growth.
+        </p>
+      </div>
+
+      <div class="stack-grid">
+
+        <div class="stack-card">
+          <div class="icon">◉</div>
+          <h3>MAGNETIC CALM™</h3>
+          <h4>Magnesium Glycinate</h4>
+          <p>
+            Supports nervous system balance, mental clarity, focus stability, and quality sleep.
+          </p>
+        </div>
+
+        <div class="stack-card">
+          <div class="icon">⚡</div>
+          <h3>POWER CORE™</h3>
+          <h4>Creatine Monohydrate</h4>
+          <p>
+            Fuels brain energy production and supports mental endurance and performance.
+          </p>
+        </div>
+
+        <div class="stack-card">
+          <div class="icon">◎</div>
+          <h3>NEURO GROWTH™</h3>
+          <h4>Lion's Mane Mushroom</h4>
+          <p>
+            Supports learning capacity, neuroplasticity, memory pathways, and cognitive growth.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="training" id="training">
+    <div class="container">
+
+      <div class="training-box">
+        <h2>
+          FREE ONLINE<br>
+          <span>COGNITIVE TRAINING</span>
+        </h2>
+
+        <p>
+          Access all four cognitive performance programs for free and start building stronger focus, memory, processing speed, and mental discipline.
+        </p>
+
+        <a href="#" class="btn">START TRAINING FREE</a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 COGNITIVO PERFORMANCE™ — Train It. Fuel It. Master It.
+    </div>
+  </footer>
 
 </body>
 </html>
