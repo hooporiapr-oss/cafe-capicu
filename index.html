@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Zone Player Check-In</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#050505;
+  color:#fff;
+}
+.container{
+  max-width:950px;
+  margin:auto;
+  padding:30px 18px;
+}
+.hero,.card,.question,.result{
+  background:#111;
+  border:1px solid #d4af37;
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:18px;
+}
+h1,h2,h3{
+  color:#d4af37;
+}
+.tagline{
+  font-size:20px;
+  font-weight:bold;
+}
+.lang{
+  text-align:center;
+  margin-bottom:20px;
+}
+button{
+  padding:14px 18px;
+  background:#d4af37;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  margin:6px;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  margin:8px 0 16px;
+  border-radius:8px;
+  border:none;
+  box-sizing:border-box;
+}
+label.option{
+  display:block;
+  background:#1c1c1c;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  cursor:pointer;
+}
+.result{
+  display:none;
+}
+.report-box{
+  background:#1a1a1a;
+  border-left:5px solid #d4af37;
+  padding:18px;
+  border-radius:12px;
+  margin-top:18px;
+}
+.footer{
+  text-align:center;
+  color:#bbb;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="lang">
+  <button onclick="showLang('en')">English</button>
+  <button onclick="showLang('es')">Español</button>
+</div>
+
+<!-- ENGLISH -->
+<div id="en">
+
+<section class="hero">
+  <h1>🏀 Focus Zone Player Check-In</h1>
+  <p class="tagline">Train Your Mind. Fuel Your Potential.</p>
+  <p>Complete your player profile, then answer the 7 focus questions honestly.</p>
+</section>
+
+<section class="card">
+  <h2>Player Profile</h2>
+
+  <input id="name" placeholder="Player Name">
+
+  <select id="gender">
+    <option value="">Male / Female</option>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+
+  <input id="age" placeholder="Age">
+  <input id="height" placeholder="Height">
+  <input id="position" placeholder="Position">
+
+  <select id="goal">
+    <option value="">Primary Goal</option>
+    <option>Confidence</option>
+    <option>Focus</option>
+    <option>Calmness</option>
+    <option>Leadership</option>
+    <option>Consistency</option>
+    <option>Energy</option>
+    <option>Mental Toughness</option>
+    <option>Game Readiness</option>
+    <option>Decision Making</option>
+  </select>
+</section>
+
+<form id="formEn">
+  <div id="questionsEn"></div>
+  <button type="button" onclick="calculateScore('en')">See My Focus Zone Report</button>
+</form>
+
+<section id="resultEn" class="result">
+  <h2 id="resultTitleEn"></h2>
+  <p id="playerInfoEn"></p>
+  <p id="resultTextEn"></p>
+
+  <div class="report-box">
+    <h3>Coach Insight</h3>
+    <p id="coachTextEn"></p>
+  </div>
+
+  <div class="report-box">
+    <h3>Focus Zone Practice Card™</h3>
+    <p id="practiceCardEn"></p>
+  </div>
+
+  <button onclick="location.reload()">Retake Check-In</button>
+</section>
+
+</div>
+
+<!-- SPANISH -->
+<div id="es" style="display:none;">
+
+<section class="hero">
+  <h1>🏀 Evaluación Focus Zone del Jugador</h1>
+  <p class="tagline">Entrena tu mente. Impulsa tu potencial.</p>
+  <p>Completa tu perfil de jugador y contesta las 7 preguntas con honestidad.</p>
+</section>
+
+<section class="card">
+  <h2>Perfil del Jugador</h2>
+
+  <input id="nameEs" placeholder="Nombre del Jugador">
+
+  <select id="genderEs">
+    <option value="">Masculino / Femenino</option>
+    <option>Masculino</option>
+    <option>Femenino</option>
+  </select>
+
+  <input id="ageEs" placeholder="Edad">
+  <input id="heightEs" placeholder="Estatura">
+  <input id="positionEs" placeholder="Posición">
+
+  <select id="goalEs">
+    <option value="">Meta Principal</option>
+    <option>Confianza</option>
+    <option>Enfoque</option>
+    <option>Calma</option>
+    <option>Liderazgo</option>
+    <option>Consistencia</option>
+    <option>Energía</option>
+    <option>Fortaleza Mental</option>
+    <option>Preparación para el Juego</option>
+    <option>Toma de Decisiones</option>
+  </select>
+</section>
+
+<form id="formEs">
+  <div id="questionsEs"></div>
+  <button type="button" onclick="calculateScore('es')">Ver Mi Reporte Focus Zone</button>
+</form>
+
+<section id="resultEs" class="result">
+  <h2 id="resultTitleEs"></h2>
+  <p id="playerInfoEs"></p>
+  <p id="resultTextEs"></p>
+
+  <div class="report-box">
+    <h3>Información para el Coach</h3>
+    <p id="coachTextEs"></p>
+  </div>
+
+  <div class="report-box">
+    <h3>Tarjeta de Práctica Focus Zone™</h3>
+    <p id="practiceCardEs"></p>
+  </div>
+
+  <button onclick="location.reload()">Repetir Evaluación</button>
+</section>
+
+</div>
+
+<div class="footer">
+  <p><strong>THE FOCUS ZONE™</strong></p>
+  <p>Basketball Focus Strips™ | Pre-Game Edition | Enter The Zone</p>
+</div>
+
+</div>
+
+<script>
+const questionsEn=[
+  "I never feel locked in before tip-off.",
+  "I start games slow.",
+  "I lose focus after halftime.",
+  "I get nervous before big games.",
+  "I practice well but disappear in games.",
+  "I get distracted easily.",
+  "I do not have a pre-game ritual."
+];
+
+const questionsEs=[
+  "Nunca me siento enfocado antes del comienzo del juego.",
+  "Empiezo los juegos lento.",
+  "Pierdo el enfoque después del medio tiempo.",
+  "Me pongo nervioso antes de juegos importantes.",
+  "Practico bien, pero desaparezco en los juegos.",
+  "Me distraigo fácilmente.",
+  "No tengo una rutina antes del juego."
+];
+
+function buildQuestions(){
+  let en=document.getElementById("questionsEn");
+  let es=document.getElementById("questionsEs");
+
+  questionsEn.forEach((q,i)=>{
+    en.innerHTML+=`
+    <div class="question">
+      <h3>${i+1}. ${q}</h3>
+      <label class="option"><input type="radio" name="q${i+1}en" value="2"> This sounds like me</label>
+      <label class="option"><input type="radio" name="q${i+1}en" value="1"> Sometimes</label>
+      <label class="option"><input type="radio" name="q${i+1}en" value="0"> Not really</label>
+    </div>`;
+  });
+
+  questionsEs.forEach((q,i)=>{
+    es.innerHTML+=`
+    <div class="question">
+      <h3>${i+1}. ${q}</h3>
+      <label class="option"><input type="radio" name="q${i+1}es" value="2"> Esto se parece a mí</label>
+      <label class="option"><input type="radio" name="q${i+1}es" value="1"> A veces</label>
+      <label class="option"><input type="radio" name="q${i+1}es" value="0"> Realmente no</label>
+    </div>`;
+  });
+}
+
+function showLang(lang){
+  document.getElementById("en").style.display=lang==="en"?"block":"none";
+  document.getElementById("es").style.display=lang==="es"?"block":"none";
+}
+
+function calculateScore(lang){
+  let total=0;
+  let answered=0;
+
+  for(let i=1;i<=7;i++){
+    let selected=document.querySelector(`input[name="q${i}${lang}"]:checked`);
+    if(selected){
+      total+=parseInt(selected.value);
+      answered++;
+    }
+  }
+
+  if(answered<7){
+    alert(lang==="en" ? "Please answer all 7 questions." : "Por favor contesta las 7 preguntas.");
+    return;
+  }
+
+  let name=lang==="en" ? document.getElementById("name").value : document.getElementById("nameEs").value;
+  let gender=lang==="en" ? document.getElementById("gender").value : document.getElementById("genderEs").value;
+  let age=lang==="en" ? document.getElementById("age").value : document.getElementById("ageEs").value;
+  let height=lang==="en" ? document.getElementById("height").value : document.getElementById("heightEs").value;
+  let position=lang==="en" ? document.getElementById("position").value : document.getElementById("positionEs").value;
+  let goal=lang==="en" ? document.getElementById("goal").value : document.getElementById("goalEs").value;
+
+  let result=document.getElementById(lang==="en" ? "resultEn" : "resultEs");
+  let title=document.getElementById(lang==="en" ? "resultTitleEn" : "resultTitleEs");
+  let info=document.getElementById(lang==="en" ? "playerInfoEn" : "playerInfoEs");
+  let text=document.getElementById(lang==="en" ? "resultTextEn" : "resultTextEs");
+  let coach=document.getElementById(lang==="en" ? "coachTextEn" : "coachTextEs");
+  let practice=document.getElementById(lang==="en" ? "practiceCardEn" : "practiceCardEs");
+
+  if(lang==="en"){
+    info.innerHTML=`
+      <strong>Player:</strong> ${name}<br>
+      <strong>Gender:</strong> ${gender}<br>
+      <strong>Age:</strong> ${age}<br>
+      <strong>Height:</strong> ${height}<br>
+      <strong>Position:</strong> ${position}<br>
+      <strong>Primary Goal:</strong> ${goal}<br>
+      <strong>Mental Readiness Score:</strong> ${100 - (total * 5)} / 100
+    `;
+  } else {
+    info.innerHTML=`
+      <strong>Jugador:</strong> ${name}<br>
+      <strong>Género:</strong> ${gender}<br>
+      <strong>Edad:</strong> ${age}<br>
+      <strong>Estatura:</strong> ${height}<br>
+      <strong>Posición:</strong> ${position}<br>
+      <strong>Meta Principal:</strong> ${goal}<br>
+      <strong>Puntuación de Preparación Mental:</strong> ${100 - (total * 5)} / 100
+    `;
+  }
+
+  if(total<=4){
+    title.innerHTML=lang==="en" ? "🟢 Locked-In Foundation" : "🟢 Base de Enfoque Fuerte";
+
+    text.innerHTML=lang==="en"
+    ? "You show signs of having a solid mental routine. Keep building consistency before games, after mistakes, and during pressure moments."
+    : "Demuestras señales de tener una buena rutina mental. Sigue construyendo consistencia antes de los juegos, después de errores y en momentos de presión.";
+
+    coach.innerHTML=lang==="en"
+    ? "This player may already have useful habits. Coaches can reinforce the routine and encourage leadership through example."
+    : "Este jugador puede tener buenos hábitos. El coach puede reforzar su rutina y motivarlo a liderar con el ejemplo.";
+
+    practice.innerHTML=lang==="en"
+    ? "<strong>Pre-Game Cue:</strong> Stay present.<br><strong>Reset Habit:</strong> Three slow breaths.<br><strong>Game Goal:</strong> Win the first five minutes mentally."
+    : "<strong>Frase antes del juego:</strong> Mantente presente.<br><strong>Hábito de reinicio:</strong> Tres respiraciones lentas.<br><strong>Meta del juego:</strong> Ganar mentalmente los primeros cinco minutos.";
+
+  } else if(total<=9){
+    title.innerHTML=lang==="en" ? "🟡 Build Your Zone" : "🟡 Construye Tu Zona";
+
+    text.innerHTML=lang==="en"
+    ? "You have moments where focus, confidence, or preparation may shift. A stronger pre-game ritual can help create consistency."
+    : "Tienes momentos donde el enfoque, la confianza o la preparación pueden cambiar. Una rutina antes del juego puede ayudar a crear consistencia.";
+
+    coach.innerHTML=lang==="en"
+    ? "This player may benefit from guided pre-game routines, halftime reset questions, and simple focus challenges during practice."
+    : "Este jugador puede beneficiarse de rutinas guiadas antes del juego, preguntas de reinicio en medio tiempo y desafíos simples de enfoque durante la práctica.";
+
+    practice.innerHTML=lang==="en"
+    ? "<strong>Pre-Game Cue:</strong> Lock in early.<br><strong>Reset Habit:</strong> Breathe, look at the court, name your next action.<br><strong>Game Goal:</strong> Start strong and stay connected."
+    : "<strong>Frase antes del juego:</strong> Entra en enfoque temprano.<br><strong>Hábito de reinicio:</strong> Respira, mira la cancha y nombra tu próxima acción.<br><strong>Meta del juego:</strong> Empezar fuerte y mantenerse conectado.";
+
+  } else {
+    title.innerHTML=lang==="en" ? "🔴 Focus Reset Needed" : "🔴 Necesitas Reiniciar el Enfoque";
+
+    text.innerHTML=lang==="en"
+    ? "Your answers suggest that focus and mental preparation may be affecting how you start, respond, or perform in games. This is where a Focus Zone routine can help."
+    : "Tus respuestas sugieren que el enfoque y la preparación mental pueden estar afectando cómo comienzas, respondes o rindes en los juegos. Aquí es donde una rutina Focus Zone puede ayudar.";
+
+    coach.innerHTML=lang==="en"
+    ? "This player may need extra support with confidence, distraction control, pre-game preparation, and mistake recovery. Start with simple routines and repeat them consistently."
+    : "Este jugador puede necesitar apoyo adicional con confianza, control de distracciones, preparación antes del juego y recuperación después de errores. Comienza con rutinas simples y repítelas consistentemente.";
+
+    practice.innerHTML=lang==="en"
+    ? "<strong>Pre-Game Cue:</strong> One play at a time.<br><strong>Reset Habit:</strong> Three breaths, one positive phrase, one clear action.<br><strong>Game Goal:</strong> Stay mentally present through mistakes."
+    : "<strong>Frase antes del juego:</strong> Una jugada a la vez.<br><strong>Hábito de reinicio:</strong> Tres respiraciones, una frase positiva y una acción clara.<br><strong>Meta del juego:</strong> Mantenerse presente mentalmente después de errores.";
+  }
+
+  result.style.display="block";
+  result.scrollIntoView({behavior:"smooth"});
+}
+
+buildQuestions();
+</script>
+
+</body>
+</html>
