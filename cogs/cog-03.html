@@ -132,6 +132,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .play-progress-star.earned{opacity:1;transform:scale(1.2);filter:drop-shadow(0 0 4px var(--cyan))}
 .play-court-wrap{width:100%;max-width:340px;margin:0 auto}
 .play-court{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:10px;background:var(--card);border:2px solid var(--border);border-radius:16px;aspect-ratio:1;position:relative;transition:border-color 0.15s,box-shadow 0.15s}
+.play-court::after{content:'';position:absolute;inset:0;background:url('/cogs/tfz.png') center/75% no-repeat;opacity:0.30;border-radius:14px;pointer-events:none;z-index:0}
 .play-cell{aspect-ratio:1;border-radius:6px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;z-index:1;transition:all 0.12s}
 .play-cell:active:not(.disabled){transform:scale(0.95)}
 .play-cell.lit{background:var(--cyan)!important;border-color:var(--cyan)!important;box-shadow:0 0 22px var(--cyan);transform:scale(1.08)}
